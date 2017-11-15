@@ -24,7 +24,10 @@ public:
 
 int POINT = 0;
 int SIGN = 0;
+int forSIGN=0;
 
+
+void TypeDIGIT(QString Arg);
 
 public slots:
     void TypeZero();
@@ -44,7 +47,11 @@ public slots:
     void TypeStar();
     void TypeDiv();
     void TypeMod();
-    void TypeSqrt();
+
+    void TypeMemorySave();
+    void TypeMemoryRead();
+    void TypeMemoryClear();
+   // void TypeSqrt();
 
 
     void ClearAll();
