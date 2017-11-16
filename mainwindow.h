@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    QVector<QString> *in_memory;
+    QString in_memory="";
     QVector<QString> *data_flow;
 
 int POINT = 0;
@@ -51,6 +51,8 @@ public slots:
     void TypeMemorySave();
     void TypeMemoryRead();
     void TypeMemoryClear();
+
+    void CE();
    // void TypeSqrt();
 
 

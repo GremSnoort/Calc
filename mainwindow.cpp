@@ -3,13 +3,29 @@
 
 void MainWindow::TypeMemorySave()
 {
-    in_memory->clear();
-    QString s = ui->Display->toPlainText();
-    ui->WIIMemory->setText(s);
-    for(int i=0; i<s.size(); i++)
-    {
-        in_memory->append(s.at(i));
+    in_memory.clear();
+    in_memory = ui->Display->toPlainText();
+    ui->WIIMemory->setText(in_memory);
 
+
+    QTextStream cout(stdout);
+    for(int i=0; i<data_flow->size(); i++)
+    {
+       cout<<data_flow->at(i);
+
+    }
+}
+void MainWindow::CE()
+{
+    QString s = ui->Display->toPlainText();
+    if(!s.isEmpty()){
+        SIGN=1;
+    int y=data_flow->size()-1;
+    for(int i=y; i>=y+1-s.size(); i--)
+    {
+        data_flow->removeAt(i);
+    }
+    ui->Display->clear();
     }
 
     QTextStream cout(stdout);
@@ -22,21 +38,26 @@ void MainWindow::TypeMemorySave()
 
 void MainWindow::TypeMemoryRead()
 {
-    if(!in_memory->empty()){
+
+    if(!in_memory.isEmpty()){
+        SIGN=0;
+        forSIGN=0;
     QString s = ui->Display->toPlainText();
+    if(s!=in_memory && !s.isEmpty()){
     int y=data_flow->size()-1;
     for(int i=y; i>=y+1-s.size(); i--)
     {
         data_flow->removeAt(i);
     }
-    QString ss="";
-    for(int i=0; i<in_memory->size(); i++)
-    {
-        data_flow->append(in_memory->at(i));
-        ss+=in_memory->at(i);
-
     }
-    ui->Display->setText(ss);
+    for(int i=0; i<in_memory.size(); i++)
+    {
+        data_flow->append(in_memory.at(i));
+    }
+    ui->Display->setText(in_memory);
+
+
+
     QTextStream cout(stdout);
     for(int i=0; i<data_flow->size(); i++)
     {
@@ -50,13 +71,12 @@ void MainWindow::TypeMemoryRead()
 
 void MainWindow::TypeMemoryClear()
 {
-    in_memory->clear();
+    in_memory.clear();
     ui->WIIMemory->clear();
     QTextStream cout(stdout);
     for(int i=0; i<data_flow->size(); i++)
     {
        cout<<data_flow->at(i);
-
     }
 }
 
@@ -150,8 +170,7 @@ void MainWindow::TypePoint()
     forSIGN=1;
 
 
-    QTextStream cout(stdout);
-    cout<<data_flow->last();
+
     }
     ui->Point->setChecked(false);
     }
@@ -168,7 +187,11 @@ void MainWindow::TypePlus()
         POINT=0;
 
         QTextStream cout(stdout);
-        cout<<data_flow->last();
+        for(int i=0; i<data_flow->size(); i++)
+        {
+           cout<<data_flow->at(i);
+
+        }
     }
 }
 void MainWindow::TypeMinus()
@@ -183,7 +206,11 @@ void MainWindow::TypeMinus()
         POINT=0;
 
         QTextStream cout(stdout);
-        cout<<data_flow->last();
+        for(int i=0; i<data_flow->size(); i++)
+        {
+           cout<<data_flow->at(i);
+
+        }
     }
 }
 void MainWindow::TypeStar()
@@ -196,9 +223,12 @@ void MainWindow::TypeStar()
         ui->Multiply->setChecked(false);
         SIGN=1;
         POINT=0;
-
         QTextStream cout(stdout);
-        cout<<data_flow->last();
+        for(int i=0; i<data_flow->size(); i++)
+        {
+           cout<<data_flow->at(i);
+
+        }
     }
 }
 void MainWindow::TypeDiv()
@@ -213,7 +243,11 @@ void MainWindow::TypeDiv()
         POINT=0;
 
         QTextStream cout(stdout);
-        cout<<data_flow->last();
+        for(int i=0; i<data_flow->size(); i++)
+        {
+           cout<<data_flow->at(i);
+
+        }
     }
 }
 void MainWindow::TypeMod()
@@ -228,7 +262,11 @@ void MainWindow::TypeMod()
         POINT=0;
 
         QTextStream cout(stdout);
-        cout<<data_flow->last();
+        for(int i=0; i<data_flow->size(); i++)
+        {
+           cout<<data_flow->at(i);
+
+        }
     }
 }
 /*void MainWindow::TypeSqrt()
@@ -267,7 +305,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    in_memory = new QVector<QString> {};
+
     data_flow = new QVector<QString> {};
 
 
@@ -294,8 +332,9 @@ connect(ui->MSave, SIGNAL(released()), this, SLOT(TypeMemorySave()));
 connect(ui->MRead, SIGNAL(released()), this, SLOT(TypeMemoryRead()));
 connect(ui->MClear, SIGNAL(released()), this, SLOT(TypeMemoryClear()));
 
-connect(ui->C, SIGNAL(released()), this, SLOT(ClearAll()));
 
+connect(ui->C, SIGNAL(released()), this, SLOT(ClearAll()));
+connect(ui->CE, SIGNAL(released()), this, SLOT(CE()));
 
 
 
