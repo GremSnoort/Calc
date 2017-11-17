@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QString>
 #include <QTextStream>
+#include <QFont>
 
 namespace Ui {
 class MainWindow;
@@ -20,14 +21,15 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     QString in_memory="";
-    QVector<QString> *data_flow;
+    QString data_flow="";
 
 int POINT = 0;
 int SIGN = 0;
 int forSIGN=0;
 
-
+void tmp();
 void TypeDIGIT(QString Arg);
+void TypeSIGN(QString Arg);
 
 public slots:
     void TypeZero();

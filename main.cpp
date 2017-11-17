@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     w.setMaximumWidth(400);
     w.setMinimumHeight(500);
     w.setMinimumWidth(400);
+
     w.show();
 
     return a.exec();

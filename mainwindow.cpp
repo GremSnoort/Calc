@@ -1,69 +1,67 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+//_____________________________________
+
+void MainWindow::tmp()
+{
+    QTextStream cout(stdout);
+    cout<<data_flow;
+
+}
+
+
+//_____________________________________
+
+
 void MainWindow::TypeMemorySave()
 {
     in_memory.clear();
-    in_memory = ui->Display->toPlainText();
+    QString s = ui->Display->toPlainText();
+    if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){s="";}
+    in_memory = s;
     ui->WIIMemory->setText(in_memory);
 
+tmp();
 
-    QTextStream cout(stdout);
-    for(int i=0; i<data_flow->size(); i++)
-    {
-       cout<<data_flow->at(i);
-
-    }
 }
 void MainWindow::CE()
 {
     QString s = ui->Display->toPlainText();
+    int y = data_flow.size()-s.size();
     if(!s.isEmpty()){
-        SIGN=1;
-    int y=data_flow->size()-1;
-    for(int i=y; i>=y+1-s.size(); i--)
-    {
-        data_flow->removeAt(i);
-    }
+    data_flow.truncate(y);
     ui->Display->clear();
+    SIGN=1;
     }
 
-    QTextStream cout(stdout);
-    for(int i=0; i<data_flow->size(); i++)
-    {
-       cout<<data_flow->at(i);
 
-    }
+    tmp();
 }
 
 void MainWindow::TypeMemoryRead()
 {
 
     if(!in_memory.isEmpty()){
-        SIGN=0;
-        forSIGN=0;
+
     QString s = ui->Display->toPlainText();
+    if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";SIGN=1;}
     if(s!=in_memory && !s.isEmpty()){
-    int y=data_flow->size()-1;
-    for(int i=y; i>=y+1-s.size(); i--)
-    {
-        data_flow->removeAt(i);
+        int y = data_flow.size()-s.size();
+        data_flow.truncate(y);
+        SIGN=1;
+
     }
+    if(SIGN==1 || data_flow.isEmpty()){
+    data_flow+=in_memory;
     }
-    for(int i=0; i<in_memory.size(); i++)
-    {
-        data_flow->append(in_memory.at(i));
-    }
+
     ui->Display->setText(in_memory);
 
+    SIGN=0;
+    forSIGN=0;
 
-
-    QTextStream cout(stdout);
-    for(int i=0; i<data_flow->size(); i++)
-    {
-       cout<<data_flow->at(i);
-
-    }
+    tmp();
 }
 
 }
@@ -73,24 +71,22 @@ void MainWindow::TypeMemoryClear()
 {
     in_memory.clear();
     ui->WIIMemory->clear();
-    QTextStream cout(stdout);
-    for(int i=0; i<data_flow->size(); i++)
-    {
-       cout<<data_flow->at(i);
-    }
+   tmp();
 }
 
 
 void MainWindow::TypeDIGIT(QString Arg)
 {
     QString s = ui->Display->toPlainText();
+    if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";}
+    if(s.size()<15){
     s+=Arg;
     ui->Display->setText(s);
-    data_flow->append(Arg);
+    data_flow+=Arg;
     SIGN=0;
     forSIGN=0;
 
-
+}
 //QTextStream cout(stdout);
 //cout<<data_flow->last();
 }
@@ -160,114 +156,78 @@ void MainWindow::TypeNine()
 
 void MainWindow::TypePoint()
 {
+
     if(POINT==0){
     QString s = ui->Display->toPlainText();
-    if(s!=""){
-    s+=",";
+    if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%")){
+    if(s!="" && s.size()<14){
+    s+=".";
     ui->Display->setText(s);
-    data_flow->append(",");
+    data_flow+=".";
     POINT=1;
     forSIGN=1;
 
 
 
     }
-    ui->Point->setChecked(false);
+
     }
+    }
+ui->Point->setChecked(false);
 }
-void MainWindow::TypePlus()
+
+//__________
+
+void MainWindow::TypeSIGN(QString Arg)
 {
-    if(SIGN==0 && forSIGN==0 && !data_flow->empty()){
-        //QString s = ui->Display->toPlainText();
-        //s+="+";
-        ui->Display->clear();
-        data_flow->append("+");
-        ui->Plus->setChecked(false);
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty()){
+        ui->Display->setText(Arg);
+        data_flow+=Arg;
+
         SIGN=1;
         POINT=0;
 
-        QTextStream cout(stdout);
-        for(int i=0; i<data_flow->size(); i++)
-        {
-           cout<<data_flow->at(i);
 
-        }
+    }else if(forSIGN==0 && SIGN==1 && !data_flow.isEmpty())
+    {
+        ui->Display->setText(Arg);
+        data_flow.truncate(data_flow.size()-1);
+        data_flow+=Arg;
+
+        SIGN=1;
+        POINT=0;
+
     }
+ tmp();
+
+}
+
+//__________
+
+void MainWindow::TypePlus()
+{
+    TypeSIGN("+");
+    ui->Plus->setChecked(false);
 }
 void MainWindow::TypeMinus()
 {
-    if(SIGN==0 && forSIGN==0 && !data_flow->empty()){
-        //QString s = ui->Display->toPlainText();
-        //s+="-";
-        ui->Display->clear();
-        data_flow->append("-");
-        ui->Minus->setChecked(false);
-        SIGN=1;
-        POINT=0;
-
-        QTextStream cout(stdout);
-        for(int i=0; i<data_flow->size(); i++)
-        {
-           cout<<data_flow->at(i);
-
-        }
-    }
+    TypeSIGN("-");
+    ui->Minus->setChecked(false);
 }
 void MainWindow::TypeStar()
-{
-    if(SIGN==0 && forSIGN==0 && !data_flow->empty()){
-        //QString s = ui->Display->toPlainText();
-        //s+="*";
-        ui->Display->clear();
-        data_flow->append("*");
-        ui->Multiply->setChecked(false);
-        SIGN=1;
-        POINT=0;
-        QTextStream cout(stdout);
-        for(int i=0; i<data_flow->size(); i++)
-        {
-           cout<<data_flow->at(i);
-
-        }
-    }
+{    
+    TypeSIGN("*");
+    ui->Multiply->setChecked(false);
 }
 void MainWindow::TypeDiv()
 {
-    if(SIGN==0 && forSIGN==0 && !data_flow->empty()){
-        //QString s = ui->Display->toPlainText();
-        //s+="/";
-        ui->Display->clear();
-        data_flow->append("/");
-        ui->Div_div->setChecked(false);
-        SIGN=1;
-        POINT=0;
-
-        QTextStream cout(stdout);
-        for(int i=0; i<data_flow->size(); i++)
-        {
-           cout<<data_flow->at(i);
-
-        }
-    }
+    TypeSIGN("/");
+    ui->Div_div->setChecked(false);
 }
 void MainWindow::TypeMod()
 {
-    if(SIGN==0 && forSIGN==0 && !data_flow->empty()){
-        //QString s = ui->Display->toPlainText();
-        //s+="%";
-        ui->Display->clear();
-        data_flow->append("%");
-        ui->Div_mod->setChecked(false);
-        SIGN=1;
-        POINT=0;
-
-        QTextStream cout(stdout);
-        for(int i=0; i<data_flow->size(); i++)
-        {
-           cout<<data_flow->at(i);
-
-        }
-    }
+    TypeSIGN("%");
+    ui->Div_mod->setChecked(false);
 }
 /*void MainWindow::TypeSqrt()
 {
@@ -288,14 +248,14 @@ void MainWindow::ClearAll()
 {
     ui->Display->clear();
 
-    data_flow->clear();
+    data_flow.clear();
+
 
 SIGN=0;
 POINT=0;
 forSIGN=0;
 
-QTextStream cout(stdout);
-cout<<data_flow->size();
+tmp();
 
 }
 
@@ -306,7 +266,47 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 
-    data_flow = new QVector<QString> {};
+    QFont MFont("Times", 29, QFont::Bold);
+    QFont lFont("Times", 16, QFont::Bold);
+    ui->Display->setFont(MFont);
+    ui->WIIMemory->setFont(lFont);
+    ui->Display->setTextColor(QColor(0, 255, 0));
+    ui->WIIMemory->setTextColor(QColor(0, 255, 0));
+    QString lstyle = "background-color: rgb(0, 40, 40);";
+    ui->Display->setStyleSheet(lstyle);
+    ui->WIIMemory->setStyleSheet(lstyle);
+    QString style = "color: rgb(0, 255, 0);\n"
+                     "font: 87 16pt 'Misc Fixed Wide';\n"
+                     "background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 70, 0, 69), stop:0.375 rgba(0, 70, 0, 69), stop:0.423533 rgba(0, 70, 0, 145), stop:0.45 rgba(0, 70, 0, 208), stop:0.477581 rgba(0, 55, 71, 130), stop:0.518717 rgba(0, 40, 71, 130), stop:0.55 rgba(0, 70, 0, 255), stop:0.57754 rgba(0, 50, 0, 130), stop:0.625 rgba(0, 70, 0, 69), stop:1 rgba(0, 70, 0, 69))";
+
+    ui->N_zero->setStyleSheet(style);
+    ui->N_one->setStyleSheet(style);
+    ui->N_two->setStyleSheet(style);
+    ui->N_three->setStyleSheet(style);
+    ui->N_four->setStyleSheet(style);
+    ui->N_five->setStyleSheet(style);
+    ui->N_six->setStyleSheet(style);
+    ui->N_seven->setStyleSheet(style);
+    ui->N_eight->setStyleSheet(style);
+    ui->N_nine->setStyleSheet(style);
+    ui->C->setStyleSheet(style);
+    ui->CE->setStyleSheet(style);
+    ui->Change_plus_minus->setStyleSheet(style);
+    ui->Delete_the_last->setStyleSheet(style);
+    ui->Div_div->setStyleSheet(style);
+    ui->Div_mod->setStyleSheet(style);
+    ui->GET_ANSWER->setStyleSheet(style);
+    ui->Minus->setStyleSheet(style);
+    ui->Sqrt_->setStyleSheet(style);
+    ui->MClear->setStyleSheet(style);
+    ui->Multiply->setStyleSheet(style);
+    ui->MMinus->setStyleSheet(style);
+    ui->MPlus->setStyleSheet(style);
+    ui->MRead->setStyleSheet(style);
+    ui->MSave->setStyleSheet(style);
+    ui->Plus->setStyleSheet(style);
+    ui->Point->setStyleSheet(style);
+    ui->One_div_X->setStyleSheet(style);
 
 
 connect(ui->N_zero, SIGNAL(released()), this, SLOT(TypeZero()));
@@ -335,8 +335,6 @@ connect(ui->MClear, SIGNAL(released()), this, SLOT(TypeMemoryClear()));
 
 connect(ui->C, SIGNAL(released()), this, SLOT(ClearAll()));
 connect(ui->CE, SIGNAL(released()), this, SLOT(CE()));
-
-
 
 
 
