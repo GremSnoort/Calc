@@ -1,13 +1,74 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+int MainWindow::DoMultiply(int number, int i)
+{
+    QString Mr="";
+    QString Ml="";
+
+    int right=i+1;
+    int left=i-1;
+    int y = data_flow.length();
+    while(right<y && data_flow.at(right)!="*" && data_flow.at(right)!="/" && data_flow.at(right)!="%" && data_flow.at(right)!="+" && data_flow.at(right)!="-")
+    {
+        Mr+=data_flow.at(right);
+        right++;
+    }
+    while(left>=0 && data_flow.at(left)!="*" && data_flow.at(left)!="/" && data_flow.at(left)!="%" && data_flow.at(left)!="+" && data_flow.at(left)!="-")
+    {
+        Ml=data_flow.at(left)+Ml;
+        left--;
+    }
+
+
+
+    double Dr = QStringToDouble(Mr);
+    double Dl = QStringToDouble(Ml);
+
+    double RES = Dr*Dl;
+
+    //QTextStream out(stdout);
+    //out<<"number"<<number<<endl;
+
+    data_flow.replace(left+1, right-(left+1), QString::number(RES));
+
+    if((pVSm.at(number)=="-" && pVSm.at(number-1)=="+")||(pVSm.at(number)=="+" && pVSm.at(number-1)=="-"))
+    {pVSm.replace(number-1, 2, "-");}
+    else
+    {pVSm.replace(number-1, 2, "+");}
+
+
+//tmp();
+
+return left+((QString::number(RES)).length())+1;
+}
 
 void MainWindow::ANSWER()
 {
+    QTextStream out(stdout);
+pVSm+=pvsm;
+    if(SIGN==0 && forSIGN==0 && POINT==0 && !data_flow.isEmpty())
+    {
+        int j = data_flow.length();
+        int i = 0;
+        int number = 0;
+
+        while(i<j)
+        {
+
+            if(data_flow.at(i)=="*" || data_flow.at(i)=="/" || data_flow.at(i)=="%" || data_flow.at(i)=="+" || data_flow.at(i)=="-"){  number+=1;    }
+
+            if(data_flow.at(i)=="*"){out<<"beforeij"<<i<<"  "<<j<<endl;i=DoMultiply(number, i);out<<"afteri"<<i<<"  "<<endl;number-=1;}else i++;
 
 
 
+            j = data_flow.length();
+            out<<"afterj"<<j<<endl;
 
+        }
+out<<"~~~~~~~~~~~~~~~~~~~`"<<endl;
+tmp();
+    }
 }
 
 
@@ -19,7 +80,7 @@ void MainWindow::tmp()
     QTextStream cout(stdout);
     cout<<data_flow<<endl;
 
-    for(int i=0; i<pVSm->size(); i++){cout<<pVSm->at(i);}
+    for(int i=0; i<pVSm.length(); i++){cout<<pVSm.at(i);}
 
 }
 
@@ -235,7 +296,7 @@ void MainWindow::TypeSIGN(QString Arg)
     if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty()){
         ui->Display->setText(Arg);
         data_flow+=Arg;
-        pVSm->append(pvsm);
+        pVSm+=pvsm;
         pvsm="+";
 
         SIGN=1;
@@ -362,7 +423,7 @@ void MainWindow::ClearAll()             //C
     ui->Display->clear();
 
     data_flow.clear();
-    pVSm->clear();
+    pVSm.clear();
     pvsm="+";
     MEMORYSIGN="+";
 
@@ -472,7 +533,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    pVSm = new QVector<QString> {};
+
 
 
     //STYLE_______________________________________________________________________begin~~~

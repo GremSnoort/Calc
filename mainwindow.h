@@ -23,7 +23,7 @@ public:
     ~MainWindow();
     QString in_memory="";
     QString data_flow="";
-    QVector<QString> *pVSm;
+    QString pVSm = "";
 
 int POINT = 0;
 int SIGN = 0;
@@ -43,6 +43,8 @@ void TypeSIGN(QString Arg);
 double QStringToDouble(QString s);
 void vspm(double D);
 
+
+int DoMultiply(int number, int i);
 
 public slots:
 
