@@ -295,6 +295,7 @@ void MainWindow::TypeSqrt()
 
         double D = QStringToDouble(s);
         D=sqrt(D);
+        pvsmn=pvsm;
         vspm(D);
 
         SQRT=1;
@@ -314,6 +315,7 @@ void MainWindow::OneDivX()
         if(D!=0.000000000)
         {
             D=1/D;
+            pvsmn=pvsm;
             vspm(D);
 
             onedivx=1;
