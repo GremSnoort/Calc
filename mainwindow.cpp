@@ -27,6 +27,7 @@ void MainWindow::TypeMemorySave()               //SAVE
     QString s = ui->Display->toPlainText();
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){s="";}
     in_memory = s;
+    MEMORYSIGN=pvsm;
     ui->WIIMemory->setText(in_memory);
 
 tmp();
@@ -224,7 +225,7 @@ void MainWindow::TypeMod()
 
 void MainWindow::TypeSqrt()
 {
-    if(SIGN==0 && forSIGN==0 &&!data_flow.isEmpty()){
+    if(pvsm=="+" && SIGN==0 && forSIGN==0 &&!data_flow.isEmpty()){
         QString s = ui->Display->toPlainText();
         const char* ch = s.toStdString().c_str();                                   //QString -> const char*
         double D = atof (ch);
@@ -266,6 +267,7 @@ void MainWindow::CE()                   //CE
     QString s = ui->Display->toPlainText();
     if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%")){
     int y = data_flow.size()-s.size();
+    if(pvsm=="-"){y+=1;}
     if(!s.isEmpty()){
     data_flow.truncate(y);
     ui->Display->clear();
@@ -327,7 +329,22 @@ void MainWindow::changePtoM()
 {
     QString s = ui->Display->toPlainText();
     if(s!="" && s!="/" && s!="%" && s!="+" && s!="-" && s!="*"){
-    if(pvsm=="+"){pvsm="-";}else{pvsm="+";}
+    if(pvsm=="+")
+    {
+        pvsm="-";
+        QString s = ui->Display->toPlainText();
+        ui->Display->setText("-"+s);
+    }
+    else
+    {
+        pvsm="+";
+        QString s = ui->Display->toPlainText();
+        if(s.at(0)=="-")
+        {
+            s.remove(0, 1);
+            ui->Display->setText(s);
+        }
+    }
     }
 }
 

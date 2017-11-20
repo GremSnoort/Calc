@@ -31,6 +31,7 @@ int forSIGN=0;
 int SQRT=0;
 
 QString pvsm="+";
+QString MEMORYSIGN="+";
 
 void tmp();
 void TypeDIGIT(QString Arg);
