@@ -6,7 +6,9 @@
 void MainWindow::tmp()
 {
     QTextStream cout(stdout);
-    cout<<data_flow;
+    cout<<data_flow<<endl;
+
+    for(int i=0; i<pVSm->size(); i++){cout<<pVSm->at(i);}
 
 }
 
@@ -14,7 +16,12 @@ void MainWindow::tmp()
 //_____________________________________
 
 
-void MainWindow::TypeMemorySave()
+
+
+
+//MEMORY_______________________________________________________________________________________________________________________begin~~~~
+
+void MainWindow::TypeMemorySave()               //SAVE
 {
     in_memory.clear();
     QString s = ui->Display->toPlainText();
@@ -25,21 +32,9 @@ void MainWindow::TypeMemorySave()
 tmp();
 
 }
-void MainWindow::CE()
-{
-    QString s = ui->Display->toPlainText();
-    int y = data_flow.size()-s.size();
-    if(!s.isEmpty()){
-    data_flow.truncate(y);
-    ui->Display->clear();
-    SIGN=1;
-    }
 
 
-    tmp();
-}
-
-void MainWindow::TypeMemoryRead()
+void MainWindow::TypeMemoryRead()               //READ
 {
 
     if(!in_memory.isEmpty()){
@@ -67,16 +62,23 @@ void MainWindow::TypeMemoryRead()
 }
 
 
-void MainWindow::TypeMemoryClear()
+void MainWindow::TypeMemoryClear()                  //CLEAR
 {
     in_memory.clear();
     ui->WIIMemory->clear();
    tmp();
 }
 
+//MEMORY_______________________________________________________________________________________________________________________end~~~~
+
+
+
+
+//DIGITS_ONLY__________________________________________________________________________________________________________________begin~~~~
 
 void MainWindow::TypeDIGIT(QString Arg)
 {
+    if(SQRT==1){CE();}
     QString s = ui->Display->toPlainText();
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";}
     if(s.size()<15){
@@ -87,8 +89,7 @@ void MainWindow::TypeDIGIT(QString Arg)
     forSIGN=0;
 
 }
-//QTextStream cout(stdout);
-//cout<<data_flow->last();
+
 }
 
 
@@ -153,39 +154,24 @@ void MainWindow::TypeNine()
 
 }
 
-
-void MainWindow::TypePoint()
-{
-
-    if(POINT==0){
-    QString s = ui->Display->toPlainText();
-    if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%")){
-    if(s!="" && s.size()<14){
-    s+=".";
-    ui->Display->setText(s);
-    data_flow+=".";
-    POINT=1;
-    forSIGN=1;
+//DIGITS_ONLY__________________________________________________________________________________________________________________end~~~~
 
 
 
-    }
 
-    }
-    }
-ui->Point->setChecked(false);
-}
-
-//__________
+//SIMPLE_SIGN_ONLY___________________________________________________________________________________________________________________begin~~~~
 
 void MainWindow::TypeSIGN(QString Arg)
 {
     if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty()){
         ui->Display->setText(Arg);
         data_flow+=Arg;
+        pVSm->append(pvsm);
+        pvsm="+";
 
         SIGN=1;
         POINT=0;
+        SQRT=0;
 
 
     }else if(forSIGN==0 && SIGN==1 && !data_flow.isEmpty())
@@ -196,13 +182,13 @@ void MainWindow::TypeSIGN(QString Arg)
 
         SIGN=1;
         POINT=0;
+        SQRT=0;
 
     }
  tmp();
 
 }
 
-//__________
 
 void MainWindow::TypePlus()
 {
@@ -229,27 +215,43 @@ void MainWindow::TypeMod()
     TypeSIGN("%");
     ui->Div_mod->setChecked(false);
 }
-/*void MainWindow::TypeSqrt()
+
+//SIGN_ONLY___________________________________________________________________________________________________________________end~~~~
+
+
+//MORE_COMPLICATED_SIGNS______________________________________________________________________________________________________________begin~~~~
+
+
+void MainWindow::TypeSqrt()
 {
-    if(SIGN==0 && forSIGN==0 &&!data_flow->empty()){
-        //QString s = ui->Display->toPlainText();
-        //s+="√";
-        ui->Display->clear();
-        data_flow->append("√");
-    ui->WIIMemory->append(data_flow->last());
-        ui->Sqrt_->setChecked(false);
-        SIGN=1;
-        POINT=0;
+    if(SIGN==0 && forSIGN==0 &&!data_flow.isEmpty()){
+        QString s = ui->Display->toPlainText();
+        const char* ch = s.toStdString().c_str();                                   //QString -> const char*
+        double D = atof (ch);
+        D=sqrt(D);
+        QString out = QString::number(D);
+        CE();
+        ui->Display->setText(out);
+        data_flow+=out;
+        SQRT=1;
+        SIGN=0; forSIGN=0;
+
     }
-}*/
+    tmp();
+}
 
 
-void MainWindow::ClearAll()
+//MORE_COMPLICATED_SIGNS______________________________________________________________________________________________________________end~~~~
+
+
+//C_CE_->_____________________________________________________________________________________________________________________begin~~~~
+
+void MainWindow::ClearAll()             //C
 {
     ui->Display->clear();
 
     data_flow.clear();
-
+    pVSm->clear();
 
 SIGN=0;
 POINT=0;
@@ -259,12 +261,85 @@ tmp();
 
 }
 
+void MainWindow::CE()                   //CE
+{
+    QString s = ui->Display->toPlainText();
+    if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%")){
+    int y = data_flow.size()-s.size();
+    if(!s.isEmpty()){
+    data_flow.truncate(y);
+    ui->Display->clear();
+    SIGN=1;
+
+    pvsm="+";
+    }
+
+    }
+    tmp();
+}
+
+
+void MainWindow::Arrow()                //->
+{
+    QString s = ui->Display->toPlainText();
+    if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%" || s=="")){
+        if(s.at(s.length()-1)=="."){POINT=0;}
+        s.remove(s.length()-1, 1);
+        data_flow.remove(data_flow.length()-1, 1);
+        ui->Display->setText(s);
+        if(s==""){SIGN=1;}
+
+    }
+tmp();
+}
+
+//C_CE_->_____________________________________________________________________________________________________________________end~~~~
+
+
+
+
+
+
+void MainWindow::TypePoint()
+{
+
+    if(POINT==0){
+    QString s = ui->Display->toPlainText();
+    if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%")){
+    if(s!="" && s.size()<14){
+    s+=".";
+    ui->Display->setText(s);
+    data_flow+=".";
+    POINT=1;
+    forSIGN=1;
+
+
+
+    }
+
+    }
+    }
+ui->Point->setChecked(false);
+}
+
+
+void MainWindow::changePtoM()
+{
+    QString s = ui->Display->toPlainText();
+    if(s!="" && s!="/" && s!="%" && s!="+" && s!="-" && s!="*"){
+    if(pvsm=="+"){pvsm="-";}else{pvsm="+";}
+    }
+}
+
+
+
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    pVSm = new QVector<QString> {};
 
     QFont MFont("Times", 29, QFont::Bold);
     QFont lFont("Times", 16, QFont::Bold);
@@ -321,12 +396,16 @@ connect(ui->N_eight, SIGNAL(released()), this, SLOT(TypeEight()));
 connect(ui->N_nine, SIGNAL(released()), this, SLOT(TypeNine()));
 
 connect(ui->Point, SIGNAL(released()), this, SLOT(TypePoint()));
+
+
 connect(ui->Plus, SIGNAL(released()), this, SLOT(TypePlus()));
 connect(ui->Minus, SIGNAL(released()), this, SLOT(TypeMinus()));
 connect(ui->Div_div, SIGNAL(released()), this, SLOT(TypeDiv()));
 connect(ui->Div_mod, SIGNAL(released()), this, SLOT(TypeMod()));
 connect(ui->Multiply, SIGNAL(released()), this, SLOT(TypeStar()));
-//connect(ui->Sqrt_, SIGNAL(released()), this, SLOT(TypeSqrt()));
+
+
+connect(ui->Sqrt_, SIGNAL(released()), this, SLOT(TypeSqrt()));
 
 connect(ui->MSave, SIGNAL(released()), this, SLOT(TypeMemorySave()));
 connect(ui->MRead, SIGNAL(released()), this, SLOT(TypeMemoryRead()));
@@ -335,7 +414,11 @@ connect(ui->MClear, SIGNAL(released()), this, SLOT(TypeMemoryClear()));
 
 connect(ui->C, SIGNAL(released()), this, SLOT(ClearAll()));
 connect(ui->CE, SIGNAL(released()), this, SLOT(CE()));
+connect(ui->Delete_the_last, SIGNAL(released()), this, SLOT(Arrow()));
 
+
+
+connect(ui->Change_plus_minus, SIGNAL(released()), this, SLOT(changePtoM()));
 
 
 
