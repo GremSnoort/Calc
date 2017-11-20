@@ -27,8 +27,9 @@ void MainWindow::TypeMemorySave()               //SAVE
     QString s = ui->Display->toPlainText();
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){s="";}
     in_memory = s;
+    if(pvsm=="-"){in_memory.remove(0,1);}
     MEMORYSIGN=pvsm;
-    ui->WIIMemory->setText(in_memory);
+    if(MEMORYSIGN=="-"){ui->WIIMemory->setText(MEMORYSIGN+in_memory);}else{ui->WIIMemory->setText(in_memory);}
 
 tmp();
 
@@ -56,6 +57,7 @@ void MainWindow::TypeMemoryRead()               //READ
 
     SIGN=0;
     forSIGN=0;
+    pvsm=MEMORYSIGN;
 
     tmp();
 }
@@ -67,6 +69,7 @@ void MainWindow::TypeMemoryClear()                  //CLEAR
 {
     in_memory.clear();
     ui->WIIMemory->clear();
+    MEMORYSIGN="+";
    tmp();
 }
 
@@ -288,9 +291,10 @@ void MainWindow::Arrow()                //->
         if(s.at(s.length()-1)=="."){POINT=0;}
         s.remove(s.length()-1, 1);
         data_flow.remove(data_flow.length()-1, 1);
-        ui->Display->setText(s);
+        if(s=="-"){s="";pvsm="+";}
         if(s==""){SIGN=1;}
 
+        ui->Display->setText(s);
     }
 tmp();
 }
