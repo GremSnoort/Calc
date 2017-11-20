@@ -239,13 +239,9 @@ void MainWindow::TypeSqrt()
 
         double D = QStringToDouble(s);
         D=sqrt(D);
-        QString out = QString::number(D);
-        CE();
-        ui->Display->setText(out);
-        data_flow+=out;
-        SQRT=1;
-        SIGN=0; forSIGN=0;
+        vspm(D);
 
+        SQRT=1;
     }
     tmp();
 }
@@ -260,11 +256,7 @@ void MainWindow::OneDivX()
         if(D!=0.000000000)
         {
             D=1/D;
-            QString out = QString::number(D);
-            CE();
-            ui->Display->setText(out);
-            data_flow+=out;
-            SIGN=0; forSIGN=0;
+            vspm(D);
             onedivx=1;
         }
 
@@ -276,6 +268,15 @@ void MainWindow::OneDivX()
 
 }
 
+
+void MainWindow::vspm(double D)
+{
+    QString out = QString::number(D);
+    CE();
+    ui->Display->setText(out);
+    data_flow+=out;
+    SIGN=0; forSIGN=0;
+}
 
 //MORE_COMPLICATED_SIGNS______________________________________________________________________________________________________________end~~~~
 
@@ -394,6 +395,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     pVSm = new QVector<QString> {};
 
+
+    //STYLE_______________________________________________________________________begin~~~
+
     QFont MFont("Times", 29, QFont::Bold);
     QFont lFont("Times", 16, QFont::Bold);
     ui->Display->setFont(MFont);
@@ -435,6 +439,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Plus->setStyleSheet(style);
     ui->Point->setStyleSheet(style);
     ui->One_div_X->setStyleSheet(style);
+
+    //STYLE________________________________________________________________________end~~~
 
 
 connect(ui->N_zero, SIGNAL(released()), this, SLOT(TypeZero()));

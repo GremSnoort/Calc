@@ -38,6 +38,7 @@ void tmp();
 void TypeDIGIT(QString Arg);
 void TypeSIGN(QString Arg);
 double QStringToDouble(QString s);
+void vspm(double D);
 
 public slots:
     //DIGITS________________
