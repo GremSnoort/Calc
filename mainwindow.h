@@ -28,10 +28,10 @@ public:
 int POINT = 0;
 int SIGN = 0;
 int forSIGN=0;
-int SQRT=0;
-int onedivx=0;
-int MPLUS=0;
-int MMINUS=0;
+
+
+int FLAG=0;
+
 
 QString pvsm="+";
 QString pvsmn="+";
@@ -45,6 +45,10 @@ void vspm(double D);
 
 
 public slots:
+
+    void ANSWER();
+
+
     //DIGITS________________
     void TypeZero();
     void TypeOne();

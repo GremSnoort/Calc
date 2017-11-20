@@ -1,6 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+void MainWindow::ANSWER()
+{
+
+
+
+
+}
+
+
+
 //_____________________________________
 
 void MainWindow::tmp()
@@ -56,7 +67,7 @@ void MainWindow::MemoryPLUS()
 
         vspm(D);
 
-        MPLUS=1;
+        FLAG=1;
     }
 
 tmp();
@@ -79,7 +90,7 @@ void MainWindow::MemoryMINUS()
 
         vspm(D);
 
-        MMINUS=1;
+        FLAG=1;
     }
 
 tmp();
@@ -135,10 +146,8 @@ void MainWindow::TypeMemoryClear()                  //CLEAR
 
 void MainWindow::TypeDIGIT(QString Arg)
 {
-    if(SQRT==1){CE();SQRT=0;}
-    if(onedivx==1){CE();onedivx=0;}
-    if(MPLUS==1){CE();MPLUS=0;}
-    if(MMINUS==1){CE();MMINUS=0;}
+    if(FLAG==1){CE(); FLAG=0;}
+
     QString s = ui->Display->toPlainText();
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";}
     if(s.size()<15){
@@ -231,10 +240,9 @@ void MainWindow::TypeSIGN(QString Arg)
 
         SIGN=1;
         POINT=0;
-        SQRT=0;
-        onedivx=0;
-        MPLUS=0;
-        MMINUS=0;
+
+        FLAG=0;
+
 
 
     }else if(forSIGN==0 && SIGN==1 && !data_flow.isEmpty())
@@ -245,10 +253,9 @@ void MainWindow::TypeSIGN(QString Arg)
 
         SIGN=1;
         POINT=0;
-        SQRT=0;
-        onedivx=0;
-        MPLUS=0;
-        MMINUS=0;
+
+        FLAG=0;
+
 
     }
  tmp();
@@ -298,7 +305,8 @@ void MainWindow::TypeSqrt()
         pvsmn=pvsm;
         vspm(D);
 
-        SQRT=1;
+        FLAG=1;
+
     }
     tmp();
 }
@@ -318,7 +326,8 @@ void MainWindow::OneDivX()
             pvsmn=pvsm;
             vspm(D);
 
-            onedivx=1;
+            FLAG=1;
+
         }
 
 
@@ -360,10 +369,9 @@ void MainWindow::ClearAll()             //C
 SIGN=0;
 POINT=0;
 forSIGN=0;
-MPLUS=0;
-MMINUS=0;
-onedivx=0;
-SQRT=0;
+
+FLAG=0;
+
 
 tmp();
 
@@ -512,6 +520,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->One_div_X->setStyleSheet(style);
 
     //STYLE________________________________________________________________________end~~~
+
+
+
+connect(ui->GET_ANSWER, SIGNAL(released()), this, SLOT(ANSWER()));
+
+
 
 
 connect(ui->N_zero, SIGNAL(released()), this, SLOT(TypeZero()));
