@@ -39,6 +39,55 @@ tmp();
 }
 
 
+
+void MainWindow::MemoryPLUS()
+{
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty() && !in_memory.isEmpty())
+    {
+
+        QString s = ui->Display->toPlainText();
+
+        double D = QStringToDouble(s);
+        double Dm = QStringToDouble(in_memory);
+        if(MEMORYSIGN=="-"){Dm=0-Dm;}
+
+        D=D+Dm;
+        if(D<0){D=0-D; pvsmn ="-";}else{pvsmn ="+";}
+
+        vspm(D);
+
+        MPLUS=1;
+    }
+
+tmp();
+
+}
+
+void MainWindow::MemoryMINUS()
+{
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty() && !in_memory.isEmpty())
+    {
+
+        QString s = ui->Display->toPlainText();
+
+        double D = QStringToDouble(s);
+        double Dm = QStringToDouble(in_memory);
+        if(MEMORYSIGN=="-"){Dm=0-Dm;}
+
+        D=D-Dm;
+        if(D<0){D=0-D; pvsmn="-";}else{pvsmn="+";}
+
+        vspm(D);
+
+        MMINUS=1;
+    }
+
+tmp();
+}
+
+
+
+
 void MainWindow::TypeMemoryRead()               //READ
 {
 
@@ -48,6 +97,7 @@ void MainWindow::TypeMemoryRead()               //READ
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";SIGN=1;}
     if(s!=in_memory && !s.isEmpty()){
         int y = data_flow.size()-s.size();
+        if(pvsm=="-"){y+=1;}
         data_flow.truncate(y);
         SIGN=1;
 
@@ -56,7 +106,7 @@ void MainWindow::TypeMemoryRead()               //READ
     data_flow+=in_memory;
     }
 
-    ui->Display->setText(in_memory);
+    if(MEMORYSIGN=="-"){ui->Display->setText("-"+in_memory);}else{ui->Display->setText(in_memory);}
 
     SIGN=0;
     forSIGN=0;
@@ -87,6 +137,8 @@ void MainWindow::TypeDIGIT(QString Arg)
 {
     if(SQRT==1){CE();SQRT=0;}
     if(onedivx==1){CE();onedivx=0;}
+    if(MPLUS==1){CE();MPLUS=0;}
+    if(MMINUS==1){CE();MMINUS=0;}
     QString s = ui->Display->toPlainText();
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";}
     if(s.size()<15){
@@ -181,6 +233,8 @@ void MainWindow::TypeSIGN(QString Arg)
         POINT=0;
         SQRT=0;
         onedivx=0;
+        MPLUS=0;
+        MMINUS=0;
 
 
     }else if(forSIGN==0 && SIGN==1 && !data_flow.isEmpty())
@@ -193,6 +247,8 @@ void MainWindow::TypeSIGN(QString Arg)
         POINT=0;
         SQRT=0;
         onedivx=0;
+        MPLUS=0;
+        MMINUS=0;
 
     }
  tmp();
@@ -252,11 +308,14 @@ void MainWindow::OneDivX()
     if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
     {
         QString s = ui->Display->toPlainText();
+
+        if(pvsm=="-"){s.remove(0,1);}
         double D = QStringToDouble(s);
         if(D!=0.000000000)
         {
             D=1/D;
             vspm(D);
+
             onedivx=1;
         }
 
@@ -272,8 +331,12 @@ void MainWindow::OneDivX()
 void MainWindow::vspm(double D)
 {
     QString out = QString::number(D);
+
+
     CE();
-    ui->Display->setText(out);
+    pvsm=pvsmn;
+    if(pvsm=="-"){ui->Display->setText("-"+out);}else
+   { ui->Display->setText(out);}
     data_flow+=out;
     SIGN=0; forSIGN=0;
 }
@@ -289,10 +352,16 @@ void MainWindow::ClearAll()             //C
 
     data_flow.clear();
     pVSm->clear();
+    pvsm="+";
+    MEMORYSIGN="+";
 
 SIGN=0;
 POINT=0;
 forSIGN=0;
+MPLUS=0;
+MMINUS=0;
+onedivx=0;
+SQRT=0;
 
 tmp();
 
@@ -468,6 +537,8 @@ connect(ui->Sqrt_, SIGNAL(released()), this, SLOT(TypeSqrt()));
 connect(ui->One_div_X, SIGNAL(released()), this, SLOT(OneDivX()));
 
 connect(ui->MSave, SIGNAL(released()), this, SLOT(TypeMemorySave()));
+connect(ui->MPlus, SIGNAL(released()), this, SLOT(MemoryPLUS()));
+connect(ui->MMinus, SIGNAL(released()), this, SLOT(MemoryMINUS()));
 connect(ui->MRead, SIGNAL(released()), this, SLOT(TypeMemoryRead()));
 connect(ui->MClear, SIGNAL(released()), this, SLOT(TypeMemoryClear()));
 

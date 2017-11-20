@@ -30,8 +30,11 @@ int SIGN = 0;
 int forSIGN=0;
 int SQRT=0;
 int onedivx=0;
+int MPLUS=0;
+int MMINUS=0;
 
 QString pvsm="+";
+QString pvsmn="+";
 QString MEMORYSIGN="+";
 
 void tmp();
@@ -39,6 +42,7 @@ void TypeDIGIT(QString Arg);
 void TypeSIGN(QString Arg);
 double QStringToDouble(QString s);
 void vspm(double D);
+
 
 public slots:
     //DIGITS________________
@@ -74,6 +78,8 @@ public slots:
     void TypeMemorySave();
     void TypeMemoryRead();
     void TypeMemoryClear();
+    void MemoryPLUS();
+    void MemoryMINUS();
     //MEMORY__________________
 
 
