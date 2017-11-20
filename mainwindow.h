@@ -29,6 +29,7 @@ int POINT = 0;
 int SIGN = 0;
 int forSIGN=0;
 int SQRT=0;
+int onedivx=0;
 
 QString pvsm="+";
 QString MEMORYSIGN="+";
@@ -36,6 +37,7 @@ QString MEMORYSIGN="+";
 void tmp();
 void TypeDIGIT(QString Arg);
 void TypeSIGN(QString Arg);
+double QStringToDouble(QString s);
 
 public slots:
     //DIGITS________________
@@ -78,6 +80,7 @@ public slots:
 
     //COMPLICATED_SIGN________
     void TypeSqrt();
+    void OneDivX();
     //COMPLICATED_SIGN________
 
 

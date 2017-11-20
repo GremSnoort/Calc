@@ -15,8 +15,11 @@ void MainWindow::tmp()
 
 //_____________________________________
 
-
-
+double MainWindow::QStringToDouble(QString s)
+{
+    const char* ch = s.toStdString().c_str();
+    return atof (ch);
+}
 
 
 //MEMORY_______________________________________________________________________________________________________________________begin~~~~
@@ -82,7 +85,8 @@ void MainWindow::TypeMemoryClear()                  //CLEAR
 
 void MainWindow::TypeDIGIT(QString Arg)
 {
-    if(SQRT==1){CE();}
+    if(SQRT==1){CE();SQRT=0;}
+    if(onedivx==1){CE();onedivx=0;}
     QString s = ui->Display->toPlainText();
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";}
     if(s.size()<15){
@@ -176,6 +180,7 @@ void MainWindow::TypeSIGN(QString Arg)
         SIGN=1;
         POINT=0;
         SQRT=0;
+        onedivx=0;
 
 
     }else if(forSIGN==0 && SIGN==1 && !data_flow.isEmpty())
@@ -187,6 +192,7 @@ void MainWindow::TypeSIGN(QString Arg)
         SIGN=1;
         POINT=0;
         SQRT=0;
+        onedivx=0;
 
     }
  tmp();
@@ -230,8 +236,8 @@ void MainWindow::TypeSqrt()
 {
     if(pvsm=="+" && SIGN==0 && forSIGN==0 &&!data_flow.isEmpty()){
         QString s = ui->Display->toPlainText();
-        const char* ch = s.toStdString().c_str();                                   //QString -> const char*
-        double D = atof (ch);
+
+        double D = QStringToDouble(s);
         D=sqrt(D);
         QString out = QString::number(D);
         CE();
@@ -242,6 +248,32 @@ void MainWindow::TypeSqrt()
 
     }
     tmp();
+}
+
+
+void MainWindow::OneDivX()
+{
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        if(D!=0.000000000)
+        {
+            D=1/D;
+            QString out = QString::number(D);
+            CE();
+            ui->Display->setText(out);
+            data_flow+=out;
+            SIGN=0; forSIGN=0;
+            onedivx=1;
+        }
+
+
+
+
+    }
+    tmp();
+
 }
 
 
@@ -427,6 +459,7 @@ connect(ui->Multiply, SIGNAL(released()), this, SLOT(TypeStar()));
 
 
 connect(ui->Sqrt_, SIGNAL(released()), this, SLOT(TypeSqrt()));
+connect(ui->One_div_X, SIGNAL(released()), this, SLOT(OneDivX()));
 
 connect(ui->MSave, SIGNAL(released()), this, SLOT(TypeMemorySave()));
 connect(ui->MRead, SIGNAL(released()), this, SLOT(TypeMemoryRead()));
