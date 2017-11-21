@@ -31,6 +31,7 @@ int forSIGN=0;
 
 
 int FLAG=0;
+int ANS=0;
 
 QString Mr="";
 QString Ml="";

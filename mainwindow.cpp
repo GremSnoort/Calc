@@ -126,7 +126,7 @@ void MainWindow::OutOfRange()
 
 void MainWindow::ANSWER()                                                                           //ANSWER!!!!!!!!!!!!!!!!!!!
 {
-    if (data_flow.contains("e+")){OutOfRange();}else
+    if (data_flow.contains("e+") || data_flow.contains("e-")){OutOfRange();}else
     {
 
 
@@ -147,7 +147,7 @@ pVSm+=pvsm;
             if(data_flow.at(i)=="%"){i=DoMod(number, i);number-=1;}else
             if(data_flow.at(i)=="/"){i=DoDiv(number, i);number-=1;}else i++;
 
-            if (data_flow.contains("e+")){OutOfRange();}
+            if (data_flow.contains("e+") || data_flow.contains("e-")){OutOfRange();}
 
             j = data_flow.length();           
         }
@@ -162,7 +162,7 @@ pVSm+=pvsm;
                 if(data_flow.at(i)=="+"){i=DoSumm(number, i);number-=1;}else
                 if(data_flow.at(i)=="-"){i=DoDiff(number, i);number-=1;}else i++;
 
-                if (data_flow.contains("e+")){OutOfRange();}
+                if (data_flow.contains("e+") || data_flow.contains("e-")){OutOfRange();}
                 j = data_flow.length();
           }
 
@@ -178,6 +178,7 @@ pVSm+=pvsm;
                 forSIGN=0;
 
                 FLAG=0;
+                ANS=1;
             ui->WARN->clear();
 
          }
@@ -329,7 +330,7 @@ void MainWindow::TypeMemoryClear()                  //CLEAR
 void MainWindow::TypeDIGIT(QString Arg)
 {
     if(FLAG==1){CE(); FLAG=0;}
-
+    if(ANS==1){ClearAll();ANS=0;}
 
     QString s = ui->Display->toPlainText();
     if(data_flow.isEmpty() && !s.isEmpty()){ui->Display->clear();s="";}
@@ -578,7 +579,7 @@ void MainWindow::ClearAll()             //C
     data_flow.clear();
     pVSm.clear();
     pvsm="+";
-    MEMORYSIGN="+";
+
 
 SIGN=0;
 POINT=0;
