@@ -32,6 +32,12 @@ int forSIGN=0;
 
 int FLAG=0;
 
+QString Mr="";
+QString Ml="";
+double Dr;
+double Dl;
+int right;
+int left;
 
 QString pvsm="+";
 QString pvsmn="+";
@@ -43,8 +49,12 @@ void TypeSIGN(QString Arg);
 double QStringToDouble(QString s);
 void vspm(double D);
 
+void Do_1(int number, int i);
+
 
 int DoMultiply(int number, int i);
+int DoDiv(int number, int i);
+int DoMod(int number, int i);
 
 public slots:
 

@@ -1,13 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-int MainWindow::DoMultiply(int number, int i)
+void MainWindow::Do_1(int number, int i)
 {
-    QString Mr="";
-    QString Ml="";
+    Mr="";
+    Ml="";
 
-    int right=i+1;
-    int left=i-1;
+    right=i+1;
+    left=i-1;
     int y = data_flow.length();
     while(right<y && data_flow.at(right)!="*" && data_flow.at(right)!="/" && data_flow.at(right)!="%" && data_flow.at(right)!="+" && data_flow.at(right)!="-")
     {
@@ -22,32 +22,56 @@ int MainWindow::DoMultiply(int number, int i)
 
 
 
-    double Dr = QStringToDouble(Mr);
-    double Dl = QStringToDouble(Ml);
+    Dr = QStringToDouble(Mr);
+    Dl = QStringToDouble(Ml);
 
-    double RES = Dr*Dl;
-
-    //QTextStream out(stdout);
-    //out<<"number"<<number<<endl;
-
-    data_flow.replace(left+1, right-(left+1), QString::number(RES));
+    QTextStream out(stdout);
+    out<<Dr<<"~~~"<<Dl<<endl;
 
     if((pVSm.at(number)=="-" && pVSm.at(number-1)=="+")||(pVSm.at(number)=="+" && pVSm.at(number-1)=="-"))
     {pVSm.replace(number-1, 2, "-");}
     else
     {pVSm.replace(number-1, 2, "+");}
+}
 
+int MainWindow::DoMultiply(int number, int i)
+{
 
-//tmp();
+    Do_1(number, i);
+    double RES = Dr*Dl;
+    data_flow.replace(left+1, right-(left+1), QString::number(RES));
 
-return left+((QString::number(RES)).length())+1;
+    return left+((QString::number(RES)).length())+1;
+}
+
+int MainWindow::DoDiv(int number, int i)
+{
+
+    Do_1(number, i);
+    double RES = Dl/Dr;
+    data_flow.replace(left+1, right-(left+1), QString::number(RES));
+
+    return left+((QString::number(RES)).length())+1;
+}
+
+int MainWindow::DoMod(int number, int i)
+{
+
+    Do_1(number, i);
+    int RES1;
+    double RES;
+    if(Dl-int(Dl)==0 && Dr-int(Dr)==0){RES1 = int(Dl)%int(Dr);RES=RES1;}else RES=Dl/Dr;
+
+    data_flow.replace(left+1, right-(left+1), QString::number(RES));
+
+    return left+((QString::number(RES)).length())+1;
 }
 
 void MainWindow::ANSWER()
 {
     QTextStream out(stdout);
 pVSm+=pvsm;
-    if(SIGN==0 && forSIGN==0 && POINT==0 && !data_flow.isEmpty())
+    if(SIGN==0 && forSIGN==0  && !data_flow.isEmpty())
     {
         int j = data_flow.length();
         int i = 0;
@@ -58,12 +82,14 @@ pVSm+=pvsm;
 
             if(data_flow.at(i)=="*" || data_flow.at(i)=="/" || data_flow.at(i)=="%" || data_flow.at(i)=="+" || data_flow.at(i)=="-"){  number+=1;    }
 
-            if(data_flow.at(i)=="*"){out<<"beforeij"<<i<<"  "<<j<<endl;i=DoMultiply(number, i);out<<"afteri"<<i<<"  "<<endl;number-=1;}else i++;
+            if(data_flow.at(i)=="*"){i=DoMultiply(number, i);number-=1;}else
+            if(data_flow.at(i)=="%"){i=DoMod(number, i);number-=1;}else
+            if(data_flow.at(i)=="/"){i=DoDiv(number, i);number-=1;}else i++;
 
 
 
             j = data_flow.length();
-            out<<"afterj"<<j<<endl;
+           // out<<"afterj"<<j<<endl;
 
         }
 out<<"~~~~~~~~~~~~~~~~~~~`"<<endl;
