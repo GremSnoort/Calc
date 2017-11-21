@@ -52,11 +52,14 @@ void vspm(double D);
 void Do_1(int number, int i);
 
 
-
+void OutOfRange();
 
 int DoMultiply(int number, int i);
 int DoDiv(int number, int i);
 int DoMod(int number, int i);
+
+int DoSumm(int number, int i);
+int DoDiff(int number, int i);
 
 public slots:
 

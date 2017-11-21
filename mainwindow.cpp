@@ -26,11 +26,47 @@ void MainWindow::Do_1(int number, int i)
     QTextStream out(stdout);
     out<<Dr<<"~~~"<<Dl<<endl;
 
-    if((pVSm.at(number)=="-" && pVSm.at(number-1)=="+")||(pVSm.at(number)=="+" && pVSm.at(number-1)=="-"))
-    {pVSm.replace(number-1, 2, "-");}
-    else
-    {pVSm.replace(number-1, 2, "+");}
+
+    if(data_flow.at(i)=="*" || data_flow.at(i)=="/" || data_flow.at(i)=="%")
+    {
+        if((pVSm.at(number)=="-" && pVSm.at(number-1)=="+")||(pVSm.at(number)=="+" && pVSm.at(number-1)=="-"))
+        {pVSm.replace(number-1, 2, "-");}
+        else
+        {pVSm.replace(number-1, 2, "+");}
+    }
+
 }
+
+int MainWindow::DoSumm(int number, int i)
+{
+
+    Do_1(number, i);
+    if(pVSm.at(number-1)=="-") Dl=0-Dl;
+    if(pVSm.at(number)=="-") Dr=0-Dr;
+    double RES = Dr+Dl;
+    if(RES<0) {pVSm.replace(number-1, 2, "-");RES=0-RES;}
+    else {pVSm.replace(number-1, 2, "+");}
+
+    data_flow.replace(left+1, right-(left+1), QString::number(RES));
+
+    return left+((QString::number(RES)).length())+1;
+}
+
+int MainWindow::DoDiff(int number, int i)
+{
+
+    Do_1(number, i);
+    if(pVSm.at(number-1)=="-") Dl=0-Dl;
+    if(pVSm.at(number)=="-") Dr=0-Dr;
+    double RES = Dl-Dr;
+    if(RES<0) {pVSm.replace(number-1, 2, "-");RES=0-RES;}
+    else {pVSm.replace(number-1, 2, "+");}
+
+    data_flow.replace(left+1, right-(left+1), QString::number(RES));
+
+    return left+((QString::number(RES)).length())+1;
+}
+
 
 int MainWindow::DoMultiply(int number, int i)
 {
@@ -81,9 +117,17 @@ int MainWindow::DoMod(int number, int i)
     }
 }
 
-void MainWindow::ANSWER()
+void MainWindow::OutOfRange()
 {
-    if (data_flow.contains("e+")){ClearAll(); ui->Display->setText("Out of range");ui->WARN->setText("Value 123e+4567 no computing.");}else{
+    ClearAll();
+    ui->Display->setText("Out of range");
+    ui->WARN->setText("Value 123e+4567 no computing.");
+}
+
+void MainWindow::ANSWER()                                                                           //ANSWER!!!!!!!!!!!!!!!!!!!
+{
+    if (data_flow.contains("e+")){OutOfRange();}else
+    {
 
 
     QTextStream out(stdout);
@@ -103,15 +147,45 @@ pVSm+=pvsm;
             if(data_flow.at(i)=="%"){i=DoMod(number, i);number-=1;}else
             if(data_flow.at(i)=="/"){i=DoDiv(number, i);number-=1;}else i++;
 
+            if (data_flow.contains("e+")){OutOfRange();}
 
-
-            j = data_flow.length();
-           // out<<"afterj"<<j<<endl;
-
+            j = data_flow.length();           
         }
-out<<"~~~~~~~~~~~~~~~~~~~`"<<endl;
-tmp();
-ui->WARN->clear();
+
+        number =0;
+        i=0;
+        j=data_flow.length();
+         while(i<j)
+         {
+                if(data_flow.at(i)=="+" || data_flow.at(i)=="-"){  number+=1;    }
+
+                if(data_flow.at(i)=="+"){i=DoSumm(number, i);number-=1;}else
+                if(data_flow.at(i)=="-"){i=DoDiff(number, i);number-=1;}else i++;
+
+                if (data_flow.contains("e+")){OutOfRange();}
+                j = data_flow.length();
+          }
+
+
+         if(pVSm.size()==1 && !data_flow.isEmpty())
+         {
+            if(pVSm.at(0)=="-")ui->Display->setText("-"+data_flow);else ui->Display->setText(data_flow);
+                pvsm=pVSm.at(0);
+                pVSm.clear();
+
+                SIGN=0;
+                if(QStringToDouble(data_flow)-int(QStringToDouble(data_flow))==0)POINT=0;else POINT=1;
+                forSIGN=0;
+
+                FLAG=0;
+            ui->WARN->clear();
+
+         }
+
+
+         out<<"~~~~~~~~~~~~~~~~~~~`"<<pVSm.size()<<endl;
+         tmp();
+
     }
     }
 }
@@ -256,7 +330,10 @@ void MainWindow::TypeDIGIT(QString Arg)
 {
     if(FLAG==1){CE(); FLAG=0;}
 
+
     QString s = ui->Display->toPlainText();
+    if(data_flow.isEmpty() && !s.isEmpty()){ui->Display->clear();s="";}
+
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";}
     if(s.size()<12){
     s+=Arg;
@@ -340,6 +417,7 @@ void MainWindow::TypeNine()
 
 void MainWindow::TypeSIGN(QString Arg)
 {
+
     if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty()){
         ui->Display->setText(Arg);
         data_flow+=Arg;
