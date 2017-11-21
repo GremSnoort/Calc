@@ -109,7 +109,7 @@ int MainWindow::DoMod(int number, int i)
     }else{
     int RES1;
     double RES;
-    if(Dl-int(Dl)==0 && Dr-int(Dr)==0){RES1 = int(Dl)%int(Dr);RES=RES1;}else RES=Dl/Dr;
+    if(Dl-int(Dl)==0 && Dr-int(Dr)==0){RES1 = int(Dl)%int(Dr);RES=RES1;}else {RES=Dl/Dr;ui->WARN->setText("Warning: non-integer values. Changed % to /.");}
 
     data_flow.replace(left+1, right-(left+1), QString::number(RES));
 
@@ -125,12 +125,15 @@ void MainWindow::OutOfRange()
 }
 
 void MainWindow::ANSWER()                                                                           //ANSWER!!!!!!!!!!!!!!!!!!!
-{
+{QTextStream out(stdout);
+tmp();
+
+    if(pVSm.size()>0){
     if (data_flow.contains("e+") || data_flow.contains("e-")){OutOfRange();}else
     {
 
 
-    QTextStream out(stdout);
+    ui->WARN->clear();
 pVSm+=pvsm;
     if(SIGN==0 && forSIGN==0  && !data_flow.isEmpty())
     {
@@ -179,7 +182,7 @@ pVSm+=pvsm;
 
                 FLAG=0;
                 ANS=1;
-            ui->WARN->clear();
+
 
          }
 
@@ -190,7 +193,7 @@ pVSm+=pvsm;
     }
     }
 }
-
+}
 
 
 //_____________________________________
@@ -429,6 +432,7 @@ void MainWindow::TypeSIGN(QString Arg)
         POINT=0;
 
         FLAG=0;
+        ANS=0;
 ui->WARN->clear();
 
 
@@ -442,6 +446,7 @@ ui->WARN->clear();
         POINT=0;
 
         FLAG=0;
+        ANS=0;
 ui->WARN->clear();
 
     }
