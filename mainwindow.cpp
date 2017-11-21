@@ -83,6 +83,9 @@ int MainWindow::DoMod(int number, int i)
 
 void MainWindow::ANSWER()
 {
+    if (data_flow.contains("e+")){ClearAll(); ui->Display->setText("Out of range");ui->WARN->setText("Value 123e+4567 no computing.");}else{
+
+
     QTextStream out(stdout);
 pVSm+=pvsm;
     if(SIGN==0 && forSIGN==0  && !data_flow.isEmpty())
@@ -108,6 +111,8 @@ pVSm+=pvsm;
         }
 out<<"~~~~~~~~~~~~~~~~~~~`"<<endl;
 tmp();
+ui->WARN->clear();
+    }
     }
 }
 
@@ -145,7 +150,7 @@ void MainWindow::TypeMemorySave()               //SAVE
     if(pvsm=="-"){in_memory.remove(0,1);}
     MEMORYSIGN=pvsm;
     if(MEMORYSIGN=="-"){ui->WIIMemory->setText(MEMORYSIGN+in_memory);}else{ui->WIIMemory->setText(in_memory);}
-
+ui->WARN->clear();
 tmp();
 
 }
@@ -170,7 +175,7 @@ void MainWindow::MemoryPLUS()
 
         FLAG=1;
     }
-
+ui->WARN->clear();
 tmp();
 
 }
@@ -193,7 +198,7 @@ void MainWindow::MemoryMINUS()
 
         FLAG=1;
     }
-
+ui->WARN->clear();
 tmp();
 }
 
@@ -224,6 +229,7 @@ void MainWindow::TypeMemoryRead()               //READ
     forSIGN=0;
     pvsm=MEMORYSIGN;
 
+ui->WARN->clear();
     tmp();
 }
 
@@ -235,6 +241,7 @@ void MainWindow::TypeMemoryClear()                  //CLEAR
     in_memory.clear();
     ui->WIIMemory->clear();
     MEMORYSIGN="+";
+    ui->WARN->clear();
    tmp();
 }
 
@@ -251,13 +258,13 @@ void MainWindow::TypeDIGIT(QString Arg)
 
     QString s = ui->Display->toPlainText();
     if(s=="-" || s=="+" || s=="*" || s=="/" || s=="%"){ui->Display->clear();s="";}
-    if(s.size()<15){
+    if(s.size()<12){
     s+=Arg;
     ui->Display->setText(s);
     data_flow+=Arg;
     SIGN=0;
     forSIGN=0;
-
+ui->WARN->clear();
 }
 
 }
@@ -343,7 +350,7 @@ void MainWindow::TypeSIGN(QString Arg)
         POINT=0;
 
         FLAG=0;
-
+ui->WARN->clear();
 
 
     }else if(forSIGN==0 && SIGN==1 && !data_flow.isEmpty())
@@ -356,7 +363,7 @@ void MainWindow::TypeSIGN(QString Arg)
         POINT=0;
 
         FLAG=0;
-
+ui->WARN->clear();
 
     }
  tmp();
@@ -408,6 +415,28 @@ void MainWindow::TypeSqrt()
 
         FLAG=1;
 
+        ui->WARN->clear();
+
+    }else if(pvsm=="-"){ui->WARN->setText("Exception: sqrt of negative value. No computing.");}
+    tmp();
+}
+
+
+void MainWindow::XandX()
+{
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        if(pvsm=="-"){s.remove(0,1);}
+        double D = QStringToDouble(s);
+        D=D*D;
+        pvsmn="+";
+        vspm(D);
+
+        FLAG=1;
+
+        ui->WARN->clear();
+
     }
     tmp();
 }
@@ -428,6 +457,12 @@ void MainWindow::OneDivX()
             vspm(D);
 
             FLAG=1;
+
+            ui->WARN->clear();
+
+        }else
+        {
+            ui->WARN->setText("Exception: division by zero. No computing.");
 
         }
 
@@ -473,7 +508,7 @@ forSIGN=0;
 
 FLAG=0;
 
-
+ui->WARN->clear();
 tmp();
 
 }
@@ -490,6 +525,8 @@ void MainWindow::CE()                   //CE
     SIGN=1;
 
     pvsm="+";
+
+    ui->WARN->clear();
     }
 
     }
@@ -508,6 +545,8 @@ void MainWindow::Arrow()                //->
         if(s==""){SIGN=1;}
 
         ui->Display->setText(s);
+
+        ui->WARN->clear();
     }
 tmp();
 }
@@ -533,7 +572,7 @@ void MainWindow::TypePoint()
     forSIGN=1;
 
 
-
+ui->WARN->clear();
     }
 
     }
@@ -551,6 +590,8 @@ void MainWindow::changePtoM()
         pvsm="-";
         QString s = ui->Display->toPlainText();
         ui->Display->setText("-"+s);
+
+        ui->WARN->clear();
     }
     else
     {
@@ -560,6 +601,8 @@ void MainWindow::changePtoM()
         {
             s.remove(0, 1);
             ui->Display->setText(s);
+
+            ui->WARN->clear();
         }
     }
     }
@@ -584,6 +627,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->WIIMemory->setFont(lFont);
     ui->Display->setTextColor(QColor(0, 255, 0));
     ui->WIIMemory->setTextColor(QColor(0, 255, 0));
+    ui->WARN->setTextColor(QColor(255, 0, 0));
     QString lstyle = "background-color: rgb(0, 40, 40);";
     ui->Display->setStyleSheet(lstyle);
     ui->WIIMemory->setStyleSheet(lstyle);
@@ -619,6 +663,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Plus->setStyleSheet(style);
     ui->Point->setStyleSheet(style);
     ui->One_div_X->setStyleSheet(style);
+    ui->XinSquare->setStyleSheet(style);
 
     //STYLE________________________________________________________________________end~~~
 
@@ -652,6 +697,7 @@ connect(ui->Multiply, SIGNAL(released()), this, SLOT(TypeStar()));
 
 connect(ui->Sqrt_, SIGNAL(released()), this, SLOT(TypeSqrt()));
 connect(ui->One_div_X, SIGNAL(released()), this, SLOT(OneDivX()));
+connect(ui->XinSquare, SIGNAL(released()), this, SLOT(XandX()));
 
 connect(ui->MSave, SIGNAL(released()), this, SLOT(TypeMemorySave()));
 connect(ui->MPlus, SIGNAL(released()), this, SLOT(MemoryPLUS()));

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>535</width>
-    <height>548</height>
+    <height>585</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -175,22 +175,19 @@
      </widget>
     </item>
     <item row="4" column="3">
-     <widget class="QPushButton" name="Div_mod">
-      <property name="styleSheet">
-       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
-      </property>
+     <widget class="QPushButton" name="XinSquare">
       <property name="text">
-       <string>%</string>
+       <string>x*x</string>
       </property>
      </widget>
     </item>
     <item row="4" column="4">
-     <widget class="QPushButton" name="Div_div">
+     <widget class="QPushButton" name="One_div_X">
       <property name="styleSheet">
        <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
       </property>
       <property name="text">
-       <string>/</string>
+       <string>1/x</string>
       </property>
      </widget>
     </item>
@@ -225,22 +222,22 @@
      </widget>
     </item>
     <item row="5" column="3">
-     <widget class="QPushButton" name="Multiply">
+     <widget class="QPushButton" name="Div_mod">
       <property name="styleSheet">
        <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
       </property>
       <property name="text">
-       <string>*</string>
+       <string>%</string>
       </property>
      </widget>
     </item>
     <item row="5" column="4">
-     <widget class="QPushButton" name="One_div_X">
+     <widget class="QPushButton" name="Div_div">
       <property name="styleSheet">
        <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
       </property>
       <property name="text">
-       <string>1/x</string>
+       <string>/</string>
       </property>
      </widget>
     </item>
@@ -275,12 +272,12 @@
      </widget>
     </item>
     <item row="6" column="3">
-     <widget class="QPushButton" name="Minus">
+     <widget class="QPushButton" name="Multiply">
       <property name="styleSheet">
        <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
       </property>
       <property name="text">
-       <string>-</string>
+       <string>*</string>
       </property>
      </widget>
     </item>
@@ -289,7 +286,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>90</height>
+        <height>80</height>
        </size>
       </property>
       <property name="styleSheet">
@@ -300,8 +297,14 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="0" colspan="2">
+    <item row="7" column="0">
      <widget class="QPushButton" name="N_zero">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
       <property name="styleSheet">
        <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 100, 0, 69), stop:0.375 rgba(0, 100, 0, 69), stop:0.423533 rgba(0, 100, 0, 145), stop:0.45 rgba(0, 100, 0, 208), stop:0.477581 rgba(0, 95, 71, 130), stop:0.518717 rgba(0, 70, 71, 130), stop:0.55 rgba(0, 100, 0, 255), stop:0.57754 rgba(0, 60, 0, 130), stop:0.625 rgba(0, 100, 0, 69), stop:1 rgba(0, 100, 0, 69));
 font: 75 14pt &quot;Noto Sans&quot;;</string>
@@ -311,23 +314,43 @@ font: 75 14pt &quot;Noto Sans&quot;;</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="2">
+    <item row="7" column="1">
      <widget class="QPushButton" name="Point">
       <property name="styleSheet">
        <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
       </property>
       <property name="text">
-       <string>,</string>
+       <string>.</string>
       </property>
      </widget>
     </item>
-    <item row="7" column="3">
+    <item row="7" column="2">
      <widget class="QPushButton" name="Plus">
       <property name="styleSheet">
        <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
       </property>
       <property name="text">
        <string>+</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="3">
+     <widget class="QPushButton" name="Minus">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>-</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0" colspan="5">
+     <widget class="QTextBrowser" name="WARN">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
       </property>
      </widget>
     </item>
