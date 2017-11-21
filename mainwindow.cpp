@@ -20,8 +20,6 @@ void MainWindow::Do_1(int number, int i)
         left--;
     }
 
-
-
     Dr = QStringToDouble(Mr);
     Dl = QStringToDouble(Ml);
 
@@ -48,16 +46,31 @@ int MainWindow::DoDiv(int number, int i)
 {
 
     Do_1(number, i);
+    if(Dr==0)
+    {
+        ClearAll();
+        ui->Display->setText("Division by zero");
+        return 20;
+
+    }else{
     double RES = Dl/Dr;
     data_flow.replace(left+1, right-(left+1), QString::number(RES));
 
     return left+((QString::number(RES)).length())+1;
+    }
 }
 
 int MainWindow::DoMod(int number, int i)
 {
 
     Do_1(number, i);
+    if(Dr==0)
+    {
+        ClearAll();
+        ui->Display->setText("Division by zero");
+        return 20;
+
+    }else{
     int RES1;
     double RES;
     if(Dl-int(Dl)==0 && Dr-int(Dr)==0){RES1 = int(Dl)%int(Dr);RES=RES1;}else RES=Dl/Dr;
@@ -65,6 +78,7 @@ int MainWindow::DoMod(int number, int i)
     data_flow.replace(left+1, right-(left+1), QString::number(RES));
 
     return left+((QString::number(RES)).length())+1;
+    }
 }
 
 void MainWindow::ANSWER()
