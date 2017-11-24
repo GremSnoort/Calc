@@ -622,6 +622,7 @@ void MainWindow::Arrow()                //->
 {
     QString s = ui->Display->toPlainText();
     if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%" || s=="")){
+        if(s.length()>2 && s.at(s.length()-2)=="."){POINT=1;forSIGN=1;}
         if(s.at(s.length()-1)=="."){POINT=0;}
         s.remove(s.length()-1, 1);
         data_flow.remove(data_flow.length()-1, 1);
