@@ -581,11 +581,12 @@ void MainWindow::Sinus()
     {
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
+        D=D*3.1415926535897932384626433832795/180;
         double D1=D;
 
         double F=1;
         int p=1;
-        if(pvsm=="-"){p=-p;}
+        //if(pvsm=="-"){p=-p;}
         double RES=0;
 QTextStream out(stdout);
         for(int i=1; i<=21; i++)
