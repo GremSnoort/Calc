@@ -114,6 +114,21 @@ public slots:
     //COMPLICATED_SIGN________
 
 
+    //RANKS__________________
+    void Sinus();
+    void Cosinus();
+    void Tangens();
+    void Cotangens();
+    void Arcsinus();
+    void Arccosinus();
+    void Arctangens();
+
+    void Ln_X();
+    void Exp_X();
+
+    //RANKS__________________
+
+
     //C_CE_->____________
     void CE();
     void ClearAll();

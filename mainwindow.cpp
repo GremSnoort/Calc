@@ -480,10 +480,10 @@ void MainWindow::TypeMod()
     ui->Div_mod->setChecked(false);
 }
 
-//SIGN_ONLY___________________________________________________________________________________________________________________end~~~~
+//~SIGN_ONLY___________________________________________________________________________________________________________________
 
 
-//MORE_COMPLICATED_SIGNS______________________________________________________________________________________________________________begin~~~~
+//MORE_COMPLICATED_SIGNS_____________________________________________________________________________________________________________
 
 
 void MainWindow::TypeSqrt()
@@ -571,11 +571,96 @@ void MainWindow::vspm(double D)
     SIGN=0; forSIGN=0;
 }
 
-//MORE_COMPLICATED_SIGNS______________________________________________________________________________________________________________end~~~~
+//~MORE_COMPLICATED_SIGNS______________________________________________________________________________________________________________
+
+//RANKS______________________________________________________________
+
+void MainWindow::Sinus()
+{
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        double D1=D;
+
+        double F=1;
+        int p=1;
+        if(pvsm=="-"){p=-p;}
+        double RES=0;
+QTextStream out(stdout);
+        for(int i=1; i<=21; i++)
+        {
+            F*=i;
+
+            if(i%2!=0)
+            {
+                RES+=(D/F)*p;
+
+//out<<"D..."<<D<<"..F..."<<F<<"........"<<p<<endl;
+                out<<((D/F)*p)<<endl;
+
+                p=-p;
+            }
+
+            D*=D1;
+            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
+
+        }
+        if(RES<0){pvsmn="-";RES=-RES;}
+
+        vspm(RES);
+
+        FLAG=1;
+
+        ui->WARN->clear();
+    }
+}
+
+void MainWindow::Cosinus()
+{
+
+}
+
+void MainWindow::Tangens()
+{
+
+}
+
+void MainWindow::Cotangens()
+{
+
+}
+
+void MainWindow::Arcsinus()
+{
+
+}
+
+void MainWindow::Arccosinus()
+{
+
+}
+
+void MainWindow::Arctangens()
+{
+
+}
+
+void MainWindow::Ln_X()
+{
+
+}
+
+void MainWindow::Exp_X()
+{
+
+}
 
 
-//C_CE_->_____________________________________________________________________________________________________________________begin~~~~
+//~RANKS_____________________________________________________________
 
+
+//C_CE_->____________________________________________________________________________________________________________________
 void MainWindow::ClearAll()             //C
 {
     ui->Display->clear();
@@ -635,7 +720,7 @@ void MainWindow::Arrow()                //->
 tmp();
 }
 
-//C_CE_->_____________________________________________________________________________________________________________________end~~~~
+//~C_CE_->_____________________________________________________________________________________________________________________
 
 
 
@@ -703,12 +788,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    //STYLE_______________________________________________________________________begin~~~
+    //STYLE______________________________________________________________________
 
     QFont MFont("Times", 29, QFont::Bold);
-    QFont lFont("Times", 16, QFont::Bold);
+    QFont lFont("Misc Fixed", 11, QFont::Bold);
+    QFont memoryFont("Times", 16, QFont::Bold);
     ui->Display->setFont(MFont);
-    ui->WIIMemory->setFont(lFont);
+    ui->WIIMemory->setFont(memoryFont);
+    ui->WARN->setFont(lFont);
     ui->Display->setTextColor(QColor(0, 255, 0));
     ui->WIIMemory->setTextColor(QColor(0, 255, 0));
     ui->WARN->setTextColor(QColor(255, 0, 0));
@@ -758,8 +845,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ArcsinX->setStyleSheet(style);
     ui->ArctgX->setStyleSheet(style);
 
-    //STYLE________________________________________________________________________end~~~
-
+    //~STYLE________________________________________________________________________
 
 
 connect(ui->GET_ANSWER, SIGNAL(released()), this, SLOT(ANSWER()));
@@ -791,6 +877,21 @@ connect(ui->Multiply, SIGNAL(released()), this, SLOT(TypeStar()));
 connect(ui->Sqrt_, SIGNAL(released()), this, SLOT(TypeSqrt()));
 connect(ui->One_div_X, SIGNAL(released()), this, SLOT(OneDivX()));
 connect(ui->XinSquare, SIGNAL(released()), this, SLOT(XandX()));
+
+
+
+connect(ui->SinusX, SIGNAL(released()), this, SLOT(Sinus()));
+connect(ui->CosinusX, SIGNAL(released()), this, SLOT(Cosinus()));
+connect(ui->TgX, SIGNAL(released()), this, SLOT(Tangens()));
+connect(ui->CtgX, SIGNAL(released()), this, SLOT(Cotangens()));
+connect(ui->ArcsinX, SIGNAL(released()), this, SLOT(Arcsinus()));
+connect(ui->ArccosX, SIGNAL(released()), this, SLOT(Arccosinus()));
+connect(ui->ArctgX, SIGNAL(released()), this, SLOT(Arctangens()));
+
+connect(ui->LnX, SIGNAL(released()), this, SLOT(Ln_X()));
+connect(ui->ExpX, SIGNAL(released()), this, SLOT(Exp_X()));
+
+
 
 connect(ui->MSave, SIGNAL(released()), this, SLOT(TypeMemorySave()));
 connect(ui->MPlus, SIGNAL(released()), this, SLOT(MemoryPLUS()));
