@@ -121,7 +121,7 @@ void MainWindow::OutOfRange()
 {
     ClearAll();
     ui->Display->setText("Out of range");
-    ui->WARN->setText("Value 123e+4567 no computing.");
+    ui->WARN->setText("Values 123e+4567 no computing.");
 }
 
 void MainWindow::ANSWER()                                                                           //ANSWER!!!!!!!!!!!!!!!!!!!
@@ -177,8 +177,8 @@ pVSm+=pvsm;
                 pVSm.clear();
 
                 SIGN=0;
-                if(QStringToDouble(data_flow)-int(QStringToDouble(data_flow))==0)POINT=0;else POINT=1;
-                forSIGN=0;
+                if(QStringToDouble(data_flow)-int(QStringToDouble(data_flow))==0)forSIGN=0;else forSIGN=1;
+
 
                 FLAG=0;
                 ANS=1;
@@ -429,7 +429,6 @@ void MainWindow::TypeSIGN(QString Arg)
         pvsm="+";
 
         SIGN=1;
-        POINT=0;
 
         FLAG=0;
         ANS=0;
@@ -443,7 +442,7 @@ ui->WARN->clear();
         data_flow+=Arg;
 
         SIGN=1;
-        POINT=0;
+
 
         FLAG=0;
         ANS=0;
@@ -587,7 +586,7 @@ void MainWindow::ClearAll()             //C
 
 
 SIGN=0;
-POINT=0;
+
 forSIGN=0;
 
 FLAG=0;
@@ -622,8 +621,8 @@ void MainWindow::Arrow()                //->
 {
     QString s = ui->Display->toPlainText();
     if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%" || s=="")){
-        if(s.length()>2 && s.at(s.length()-2)=="."){POINT=1;forSIGN=1;}
-        if(s.at(s.length()-1)=="."){POINT=0;}
+        if(s.length()>2 && s.at(s.length()-2)=="."){forSIGN=1;}
+        if(s.at(s.length()-1)=="."){forSIGN=0;}
         s.remove(s.length()-1, 1);
         data_flow.remove(data_flow.length()-1, 1);
         if(s=="-"){s="";pvsm="+";}
@@ -646,14 +645,14 @@ tmp();
 void MainWindow::TypePoint()
 {
 
-    if(POINT==0){
+    if(forSIGN==0){
     QString s = ui->Display->toPlainText();
     if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%")){
     if(s!="" && s.size()<14){
     s+=".";
     ui->Display->setText(s);
     data_flow+=".";
-    POINT=1;
+
     forSIGN=1;
 
 
@@ -717,7 +716,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Display->setStyleSheet(lstyle);
     ui->WIIMemory->setStyleSheet(lstyle);
     QString style = "color: rgb(0, 255, 0);\n"
-                     "font: 87 16pt 'Misc Fixed Wide';\n"
+                     "font: 87 16pt 'Misc Fixed';\n"
                      "background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 70, 0, 69), stop:0.375 rgba(0, 70, 0, 69), stop:0.423533 rgba(0, 70, 0, 145), stop:0.45 rgba(0, 70, 0, 208), stop:0.477581 rgba(0, 55, 71, 130), stop:0.518717 rgba(0, 40, 71, 130), stop:0.55 rgba(0, 70, 0, 255), stop:0.57754 rgba(0, 50, 0, 130), stop:0.625 rgba(0, 70, 0, 69), stop:1 rgba(0, 70, 0, 69))";
 
     ui->N_zero->setStyleSheet(style);
@@ -749,6 +748,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->Point->setStyleSheet(style);
     ui->One_div_X->setStyleSheet(style);
     ui->XinSquare->setStyleSheet(style);
+    ui->SinusX->setStyleSheet(style);
+    ui->CosinusX->setStyleSheet(style);
+    ui->TgX->setStyleSheet(style);
+    ui->CtgX->setStyleSheet(style);
+    ui->LnX->setStyleSheet(style);
+    ui->ExpX->setStyleSheet(style);
+    ui->ArccosX->setStyleSheet(style);
+    ui->ArcsinX->setStyleSheet(style);
+    ui->ArctgX->setStyleSheet(style);
 
     //STYLE________________________________________________________________________end~~~
 

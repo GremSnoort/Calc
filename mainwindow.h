@@ -25,7 +25,7 @@ public:
     QString data_flow="";
     QString pVSm = "";
 
-int POINT = 0;
+
 int SIGN = 0;
 int forSIGN=0;
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>535</width>
-    <height>585</height>
+    <height>675</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -176,6 +176,9 @@
     </item>
     <item row="4" column="3">
      <widget class="QPushButton" name="XinSquare">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
       <property name="text">
        <string>x*x</string>
       </property>
@@ -351,6 +354,97 @@ font: 75 14pt &quot;Noto Sans&quot;;</string>
         <width>16777215</width>
         <height>30</height>
        </size>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QPushButton" name="SinusX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>sin x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="QPushButton" name="CosinusX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));
+</string>
+      </property>
+      <property name="text">
+       <string>cos x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="2">
+     <widget class="QPushButton" name="LnX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>ln x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="3">
+     <widget class="QPushButton" name="ExpX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>e^x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="4">
+     <widget class="QPushButton" name="ArctgX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>arctg x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QPushButton" name="TgX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>tg x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1">
+     <widget class="QPushButton" name="CtgX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>ctg x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="2">
+     <widget class="QPushButton" name="ArcsinX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>arcsin x</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="3">
+     <widget class="QPushButton" name="ArccosX">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>arccos x</string>
       </property>
      </widget>
     </item>
