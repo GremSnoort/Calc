@@ -575,61 +575,121 @@ void MainWindow::vspm(double D)
 
 //RANKS______________________________________________________________
 
-void MainWindow::Sinus()
+double MainWindow::functions(QString v)
 {
-    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    QString s = ui->Display->toPlainText();
+    double D = QStringToDouble(s);
+    D=D-(360*int(D/360));
+
+
+    double F=1;
+
+    QTextStream out(stdout);
+
+
+    if(v=="sin")
     {
-        QString s = ui->Display->toPlainText();
-        double D = QStringToDouble(s);
+        if(D==180 || D==0){pvsmn="+";return 0;}else{
         D=D*3.1415926535897932384626433832795/180;
         double D1=D;
-
-        double F=1;
         int p=1;
-        //if(pvsm=="-"){p=-p;}
         double RES=0;
-QTextStream out(stdout);
-        for(int i=1; i<=21; i++)
+        for(int i=1; i<=51; i++)
         {
             F*=i;
-
             if(i%2!=0)
             {
                 RES+=(D/F)*p;
-
-//out<<"D..."<<D<<"..F..."<<F<<"........"<<p<<endl;
-                out<<((D/F)*p)<<endl;
-
                 p=-p;
             }
-
             D*=D1;
             if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
-
         }
-        if(RES<0){pvsmn="-";RES=-RES;}
 
+        return RES;
+
+    }
+    }
+    if(v=="cos")
+    {
+        if(D==90 || D==270){pvsmn="+";return 0;}else{
+        D=D*3.1415926535897932384626433832795/180;
+        double D1=D;
+        int p=-1;
+        double RES=1;
+        for(int i=2; i<=52; i++)
+        {
+            D*=D1;
+            F*=i;
+            if(i%2==0)
+            {
+                RES+=(D/F)*p;
+                p=-p;
+            }
+            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
+        }
+
+        return RES;
+
+    }
+    }else return 0;
+}
+
+void MainWindow::Sinus()
+{
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {        
+        double RES = functions("sin");
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
         vspm(RES);
-
         FLAG=1;
-
         ui->WARN->clear();
     }
 }
 
 void MainWindow::Cosinus()
 {
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        double RES = functions("cos");
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->clear();
+    }
 
 }
 
 void MainWindow::Tangens()
 {
+    double Sin = functions("sin");
+    double Cos = functions("cos");
+
+    if(Cos==0){ui->WARN->setText("tg x non exist");}else
+    {
+        double RES = Sin/Cos;
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->clear();
+    }
+
 
 }
 
 void MainWindow::Cotangens()
 {
+    double Sin = functions("sin");
+    double Cos = functions("cos");
 
+    if(Sin==0){ui->WARN->setText("ctg x non exist");}else
+    {
+        double RES = Cos/Sin;
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->clear();
+    }
 }
 
 void MainWindow::Arcsinus()
