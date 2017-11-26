@@ -694,6 +694,44 @@ void MainWindow::Cotangens()
 
 void MainWindow::Arcsinus()
 {
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        if(D>-1 && D<1){
+        double D1=D;
+        double RES=0;
+        long double F1=1;
+        long double F2=1;
+
+QTextStream out(stdout);
+        for(int i=1; i<3000; i++)
+        {
+            if(i%2!=0)
+            {
+                RES+=(F1/F2)*(D/i);
+                F1*=i;
+                F2*=i+1;
+            }
+            D*=D1;
+            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
+        out<<RES<<endl;
+        }
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        RES=RES*180/3.1415926535897932384626433832795;
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->setText("Answer in grad");
+        }else if(D==1 || D==-1)
+        {
+            double RES=90;
+            if(D<0){pvsmn="-";}else{pvsmn="+";}
+            vspm(RES);
+            FLAG=1;
+            ui->WARN->setText("Answer in grad");
+        }
+        else{ui->WARN->setText("x should be in range [-1; 1]");}
+}
 
 }
 
