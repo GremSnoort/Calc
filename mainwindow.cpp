@@ -704,7 +704,31 @@ void MainWindow::Arccosinus()
 
 void MainWindow::Arctangens()
 {
-
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        if(D>=-1 && D<=1){
+        double D1=D;
+        double RES=0;
+        int p=1;
+        for(int i=1; i<600000; i++)
+        {
+            if(i%2!=0)
+            {
+            RES+=(D/i)*p;
+            p=-p;
+            }
+            D*=D1;
+            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
+        }
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        RES=RES*180/3.1415926535897932384626433832795;
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->clear();
+        }else{ui->WARN->setText("x should be in range [-1; 1]");}
+}
 }
 
 void MainWindow::Ln_X()
@@ -714,7 +738,26 @@ void MainWindow::Ln_X()
 
 void MainWindow::Exp_X()
 {
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        double D1=D;
+        double F=1;
+        double RES=1;
+        for(int i=1; i<72; i++)
+        {
+            F*=i;
+            RES+=D/F;
+            D*=D1;
+        }
 
+
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->clear();
+    }
 }
 
 
