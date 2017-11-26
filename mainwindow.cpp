@@ -692,6 +692,32 @@ void MainWindow::Cotangens()
     }
 }
 
+double MainWindow::Arc(double D)
+{
+    double D1=D;
+    double RES=0;
+    long double F1=1;
+    long double F2=1;
+
+
+    for(int i=1; i<3000; i++)
+    {
+        if(i%2!=0)
+        {
+            RES+=(F1/F2)*(D/i);
+            F1*=i;
+            F2*=i+1;
+        }
+        D*=D1;
+        if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
+
+    }
+
+
+
+    return RES;
+}
+
 void MainWindow::Arcsinus()
 {
     if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
@@ -699,24 +725,7 @@ void MainWindow::Arcsinus()
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
         if(D>-1 && D<1){
-        double D1=D;
-        double RES=0;
-        long double F1=1;
-        long double F2=1;
-
-QTextStream out(stdout);
-        for(int i=1; i<3000; i++)
-        {
-            if(i%2!=0)
-            {
-                RES+=(F1/F2)*(D/i);
-                F1*=i;
-                F2*=i+1;
-            }
-            D*=D1;
-            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
-        out<<RES<<endl;
-        }
+        double RES = Arc(D);
         if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
         RES=RES*180/3.1415926535897932384626433832795;
         vspm(RES);
@@ -737,6 +746,28 @@ QTextStream out(stdout);
 
 void MainWindow::Arccosinus()
 {
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        if(D>-1 && D<1){
+        double RES = (3.1415926535897932384626433832795/2)-Arc(D);
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        //RES=RES*180/3.1415926535897932384626433832795;
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->setText("Answer in grad");
+        }else if(D==1 || D==-1)
+        {
+            double RES=0;
+            pvsmn="+";
+            vspm(RES);
+            FLAG=1;
+            ui->WARN->setText("Answer in grad");
+        }
+        else{ui->WARN->setText("x should be in range [-1; 1]");}
+}
+
 
 }
 
@@ -771,7 +802,32 @@ void MainWindow::Arctangens()
 
 void MainWindow::Ln_X()
 {
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        if(D>0 && D<=2){
+        D-=1;
+        double D1=D;
+        int p=1;
+        double RES=0;
+        for(int i=1; i<1000000; i++)
+        {
 
+            RES+=(D/i)*p;
+            D*=D1;
+            p=-p;
+        }
+
+
+        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+        vspm(RES);
+        FLAG=1;
+        ui->WARN->clear();
+        }else {
+            ui->WARN->setText("x should be in range (0; 2]");
+        }
+}
 }
 
 void MainWindow::Exp_X()

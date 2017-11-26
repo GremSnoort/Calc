@@ -9,6 +9,7 @@
 #include <QTextStream>
 #include <QFont>
 #include <QtMath>
+#include <math.h>
 
 namespace Ui {
 class MainWindow;
@@ -63,6 +64,7 @@ int DoSumm(int number, int i);
 int DoDiff(int number, int i);
 
 double functions(QString v);
+double Arc(double D);
 
 public slots:
 
