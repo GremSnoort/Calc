@@ -177,7 +177,7 @@ pVSm+=pvsm;
                 pVSm.clear();
 
                 SIGN=0;
-                if(QStringToDouble(data_flow)-int(QStringToDouble(data_flow))==0)forSIGN=0;else forSIGN=1;
+                forSIGN=0;
 
 
                 FLAG=0;
@@ -421,8 +421,7 @@ void MainWindow::TypeNine()
 
 void MainWindow::TypeSIGN(QString Arg)
 {
-
-    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty()){
+        if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty()){
         ui->Display->setText(Arg);
         data_flow+=Arg;
         pVSm+=pvsm;
@@ -591,7 +590,7 @@ void MainWindow::Sinus()
         if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
         vspm(RES);
         FLAG=1;
-        ui->WARN->clear();
+        ui->WARN->setText("Arg in grad.");
     }
 
 }
@@ -610,7 +609,7 @@ void MainWindow::Cosinus()
         if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
         vspm(RES);
         FLAG=1;
-        ui->WARN->clear();
+        ui->WARN->setText("Arg in grad.");
     }
 
 }
@@ -623,14 +622,14 @@ void MainWindow::Tangens()
     double D = QStringToDouble(s);
     double RES;
     D=D-(360*int(D/360));
-    if(D==90 || D==270){ui->WARN->setText("non exist");}else{
+    if(D==90 || D==270){ui->WARN->setText("Non exist.");}else{
     D=D*3.1415926535897932384626433832795/180;
     RES = tan(D);
 
     if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
     vspm(RES);
     FLAG=1;
-    ui->WARN->clear();
+    ui->WARN->setText("Arg in grad.");
     }
 
 }
@@ -644,14 +643,14 @@ void MainWindow::Cotangens()
     double D = QStringToDouble(s);
     double RES;
     D=D-(360*int(D/360));
-    if(D==0 || D==180){ui->WARN->setText("non exist");}else{
+    if(D==0 || D==180){ui->WARN->setText("Non exist.");}else{
     D=D*3.1415926535897932384626433832795/180;
     RES = 1/tan(D);
 
     if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
     vspm(RES);
     FLAG=1;
-    ui->WARN->clear();
+    ui->WARN->setText("Arg in grad.");
     }
 }
 }
@@ -664,14 +663,16 @@ void MainWindow::Arcsinus()
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
 
-        double RES = asin(D);
+        if(D>=-1 && D<=1){
+
+        long double RES = asin(D);
 
         if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
         vspm(RES);
         FLAG=1;
-        ui->WARN->clear();
-    }
-
+        ui->WARN->setText("Answer in rad.");
+        }else {ui->WARN->setText("x should be in range [-1; 1].");}
+}
 }
 
 void MainWindow::Arccosinus()
@@ -681,15 +682,17 @@ void MainWindow::Arccosinus()
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
 
-        double RES = acos(D);
+        if(D>=-1 && D<=1){
+
+        long double RES = acos(D);
 
         if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
         vspm(RES);
         FLAG=1;
-        ui->WARN->clear();
-    }
+        ui->WARN->setText("Answer in rad.");
+        }else {ui->WARN->setText("x should be in range [-1; 1].");}
 
-
+}
 }
 
 void MainWindow::Arctangens()
@@ -704,8 +707,22 @@ void MainWindow::Arctangens()
         if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
         vspm(RES);
         FLAG=1;
-        ui->WARN->clear();
+        ui->WARN->setText("Answer in rad.");
     }
+}
+
+void MainWindow::RadTOgrad()
+{
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
+    {
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        D = D*180/3.1415926535897932384626433832795;
+        if(D<0){pvsmn="-";D=-D;}else {pvsmn="+";}
+        vspm(D);
+        FLAG=1;
+    }
+
 }
 
 void MainWindow::Ln_X()
@@ -714,26 +731,17 @@ void MainWindow::Ln_X()
     {
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
-        if(D>0 && D<=2){
-        D-=1;
-        double D1=D;
-        int p=1;
-        double RES=0;
-        for(int i=1; i<1000000; i++)
+
+
+        if(D>0)
         {
-
-            RES+=(D/i)*p;
-            D*=D1;
-            p=-p;
-        }
-
-
-        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
-        vspm(RES);
-        FLAG=1;
-        ui->WARN->clear();
+            double RES = log(D);
+            if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
+            vspm(RES);
+            FLAG=1;
+            ui->WARN->clear();
         }else {
-            ui->WARN->setText("x should be in range (0; 2]");
+            ui->WARN->setText("Negative value!");
         }
 }
 }
@@ -836,7 +844,7 @@ tmp();
 void MainWindow::TypePoint()
 {
 
-    if(forSIGN==0){
+    if(forSIGN==0 && ANS==0){
     QString s = ui->Display->toPlainText();
     if(!(s=="-" || s=="+" || s=="*" || s=="/" || s=="%")){
     if(s!="" && s.size()<14){
@@ -950,6 +958,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ArccosX->setStyleSheet(style);
     ui->ArcsinX->setStyleSheet(style);
     ui->ArctgX->setStyleSheet(style);
+    ui->radTOgrad->setStyleSheet(style);
 
     //~STYLE________________________________________________________________________
 
@@ -996,6 +1005,8 @@ connect(ui->ArctgX, SIGNAL(released()), this, SLOT(Arctangens()));
 
 connect(ui->LnX, SIGNAL(released()), this, SLOT(Ln_X()));
 connect(ui->ExpX, SIGNAL(released()), this, SLOT(Exp_X()));
+
+connect(ui->radTOgrad, SIGNAL(released()), this, SLOT(RadTOgrad()));
 
 
 

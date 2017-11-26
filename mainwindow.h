@@ -129,6 +129,7 @@ public slots:
     void Ln_X();
     void Exp_X();
 
+    void RadTOgrad();
     //RANKS__________________
 
 

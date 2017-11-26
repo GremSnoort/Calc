@@ -448,6 +448,16 @@ font: 75 14pt &quot;Noto Sans&quot;;</string>
       </property>
      </widget>
     </item>
+    <item row="10" column="4">
+     <widget class="QPushButton" name="radTOgrad">
+      <property name="styleSheet">
+       <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(0, 255, 0, 69), stop:0.375 rgba(0, 255, 0, 69), stop:0.423533 rgba(0, 255, 0, 145), stop:0.45 rgba(0, 255, 0, 208), stop:0.477581 rgba(0, 244, 71, 130), stop:0.518717 rgba(0, 218, 71, 130), stop:0.55 rgba(0, 255, 0, 255), stop:0.57754 rgba(0, 203, 0, 130), stop:0.625 rgba(0, 255, 0, 69), stop:1 rgba(0, 255, 0, 69));</string>
+      </property>
+      <property name="text">
+       <string>rad -&gt; grad</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
