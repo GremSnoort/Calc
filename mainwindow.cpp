@@ -575,83 +575,38 @@ void MainWindow::vspm(double D)
 
 //RANKS______________________________________________________________
 
-double MainWindow::functions(QString v)
-{
-    QString s = ui->Display->toPlainText();
-    double D = QStringToDouble(s);
-    D=D-(360*int(D/360));
 
-
-    double F=1;
-
-    QTextStream out(stdout);
-
-
-    if(v=="sin")
-    {
-        if(D==180 || D==0){pvsmn="+";return 0;}else{
-        D=D*3.1415926535897932384626433832795/180;
-        double D1=D;
-        int p=1;
-        double RES=0;
-        for(int i=1; i<=51; i++)
-        {
-            F*=i;
-            if(i%2!=0)
-            {
-                RES+=(D/F)*p;
-                p=-p;
-            }
-            D*=D1;
-            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
-        }
-
-        return RES;
-
-    }
-    }
-    if(v=="cos")
-    {
-        if(D==90 || D==270){pvsmn="+";return 0;}else{
-        D=D*3.1415926535897932384626433832795/180;
-        double D1=D;
-        int p=-1;
-        double RES=1;
-        for(int i=2; i<=52; i++)
-        {
-            D*=D1;
-            F*=i;
-            if(i%2==0)
-            {
-                RES+=(D/F)*p;
-                p=-p;
-            }
-            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
-        }
-
-        return RES;
-
-    }
-    }else return 0;
-}
 
 void MainWindow::Sinus()
 {
     if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
     {        
-        double RES = functions("sin");
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        double RES;
+        D=D-(360*int(D/360));
+        if(D==0 || D==180){RES=0;}else{
+        D=D*3.1415926535897932384626433832795/180;
+        RES = sin(D);}
         if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
         vspm(RES);
         FLAG=1;
         ui->WARN->clear();
     }
+
 }
 
 void MainWindow::Cosinus()
 {
     if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
     {
-        double RES = functions("cos");
+        QString s = ui->Display->toPlainText();
+        double D = QStringToDouble(s);
+        double RES;
+        D=D-(360*int(D/360));
+        if(D==90 || D==270){RES=0;}else{
+        D=D*3.1415926535897932384626433832795/180;
+        RES = cos(D);}
         if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
         vspm(RES);
         FLAG=1;
@@ -662,61 +617,45 @@ void MainWindow::Cosinus()
 
 void MainWindow::Tangens()
 {
-    double Sin = functions("sin");
-    double Cos = functions("cos");
-
-    if(Cos==0){ui->WARN->setText("tg x non exist");}else
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
     {
-        double RES = Sin/Cos;
-        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
-        vspm(RES);
-        FLAG=1;
-        ui->WARN->clear();
+    QString s = ui->Display->toPlainText();
+    double D = QStringToDouble(s);
+    double RES;
+    D=D-(360*int(D/360));
+    if(D==90 || D==270){ui->WARN->setText("non exist");}else{
+    D=D*3.1415926535897932384626433832795/180;
+    RES = tan(D);
+
+    if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
+    vspm(RES);
+    FLAG=1;
+    ui->WARN->clear();
     }
 
-
+}
 }
 
 void MainWindow::Cotangens()
 {
-    double Sin = functions("sin");
-    double Cos = functions("cos");
-
-    if(Sin==0){ui->WARN->setText("ctg x non exist");}else
+    if(SIGN==0 && forSIGN==0 && !data_flow.isEmpty())
     {
-        double RES = Cos/Sin;
-        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
-        vspm(RES);
-        FLAG=1;
-        ui->WARN->clear();
+    QString s = ui->Display->toPlainText();
+    double D = QStringToDouble(s);
+    double RES;
+    D=D-(360*int(D/360));
+    if(D==0 || D==180){ui->WARN->setText("non exist");}else{
+    D=D*3.1415926535897932384626433832795/180;
+    RES = 1/tan(D);
+
+    if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
+    vspm(RES);
+    FLAG=1;
+    ui->WARN->clear();
     }
 }
-
-double MainWindow::Arc(double D)
-{
-    double D1=D;
-    double RES=0;
-    long double F1=1;
-    long double F2=1;
-
-
-    for(int i=1; i<3000; i++)
-    {
-        if(i%2!=0)
-        {
-            RES+=(F1/F2)*(D/i);
-            F1*=i;
-            F2*=i+1;
-        }
-        D*=D1;
-        if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
-
-    }
-
-
-
-    return RES;
 }
+
 
 void MainWindow::Arcsinus()
 {
@@ -724,23 +663,14 @@ void MainWindow::Arcsinus()
     {
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
-        if(D>-1 && D<1){
-        double RES = Arc(D);
-        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
-        RES=RES*180/3.1415926535897932384626433832795;
+
+        double RES = asin(D);
+
+        if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
         vspm(RES);
         FLAG=1;
-        ui->WARN->setText("Answer in grad");
-        }else if(D==1 || D==-1)
-        {
-            double RES=90;
-            if(D<0){pvsmn="-";}else{pvsmn="+";}
-            vspm(RES);
-            FLAG=1;
-            ui->WARN->setText("Answer in grad");
-        }
-        else{ui->WARN->setText("x should be in range [-1; 1]");}
-}
+        ui->WARN->clear();
+    }
 
 }
 
@@ -750,23 +680,14 @@ void MainWindow::Arccosinus()
     {
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
-        if(D>-1 && D<1){
-        double RES = (3.1415926535897932384626433832795/2)-Arc(D);
-        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
-        //RES=RES*180/3.1415926535897932384626433832795;
+
+        double RES = acos(D);
+
+        if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
         vspm(RES);
         FLAG=1;
-        ui->WARN->setText("Answer in grad");
-        }else if(D==1 || D==-1)
-        {
-            double RES=0;
-            pvsmn="+";
-            vspm(RES);
-            FLAG=1;
-            ui->WARN->setText("Answer in grad");
-        }
-        else{ui->WARN->setText("x should be in range [-1; 1]");}
-}
+        ui->WARN->clear();
+    }
 
 
 }
@@ -777,27 +698,14 @@ void MainWindow::Arctangens()
     {
         QString s = ui->Display->toPlainText();
         double D = QStringToDouble(s);
-        if(D>=-1 && D<=1){
-        double D1=D;
-        double RES=0;
-        int p=1;
-        for(int i=1; i<600000; i++)
-        {
-            if(i%2!=0)
-            {
-            RES+=(D/i)*p;
-            p=-p;
-            }
-            D*=D1;
-            if (QString::number(RES).contains("e+") || QString::number(RES).contains("e-")){OutOfRange();break;}
-        }
-        if(RES<0){pvsmn="-";RES=-RES;}else if(RES>=0){pvsmn="+";}
-        RES=RES*180/3.1415926535897932384626433832795;
+
+        double RES = atan(D);
+
+        if(RES<0){pvsmn="-";RES=-RES;}else {pvsmn="+";}
         vspm(RES);
         FLAG=1;
         ui->WARN->clear();
-        }else{ui->WARN->setText("x should be in range [-1; 1]");}
-}
+    }
 }
 
 void MainWindow::Ln_X()
